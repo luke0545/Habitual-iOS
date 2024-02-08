@@ -2,16 +2,20 @@
 //  Habitual_iOSApp.swift
 //  Habitual-iOS
 //
-//  Created by Luke on 1/27/24.
+//  Created by Luke
 //
 
 import SwiftUI
 
 @main
-struct Habitual_iOSApp: App {
-    var body: some Scene {
-        WindowGroup {
-            ContentView()
+struct Habitual_iOSApp: App 
+{
+    var body: some Scene 
+    {
+        WindowGroup 
+        {
+            HomeView()
         }
     }
 }
+

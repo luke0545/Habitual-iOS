@@ -7,8 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A333B4F12B65B5B400502BA5 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A333B4F02B65B5B400502BA5 /* Habit.swift */; };
+		A333B4F32B69E97800502BA5 /* HomeViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A333B4F22B69E97800502BA5 /* HomeViewModifier.swift */; };
+		A333B4F52B69FEF000502BA5 /* HabitName.swift in Sources */ = {isa = PBXBuildFile; fileRef = A333B4F42B69FEF000502BA5 /* HabitName.swift */; };
 		A38642802B65A3DA00B3F3FA /* Habitual_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A386427F2B65A3DA00B3F3FA /* Habitual_iOSApp.swift */; };
-		A38642822B65A3DA00B3F3FA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38642812B65A3DA00B3F3FA /* ContentView.swift */; };
+		A38642822B65A3DA00B3F3FA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38642812B65A3DA00B3F3FA /* HomeView.swift */; };
 		A38642842B65A3DB00B3F3FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A38642832B65A3DB00B3F3FA /* Assets.xcassets */; };
 		A38642872B65A3DB00B3F3FA /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A38642862B65A3DB00B3F3FA /* Preview Assets.xcassets */; };
 		A38642912B65A3DB00B3F3FA /* Habitual_iOSTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38642902B65A3DB00B3F3FA /* Habitual_iOSTests.swift */; };
@@ -34,9 +37,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A333B4F02B65B5B400502BA5 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Habit.swift; path = Models/Habit.swift; sourceTree = "<group>"; };
+		A333B4F22B69E97800502BA5 /* HomeViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModifier.swift; sourceTree = "<group>"; };
+		A333B4F42B69FEF000502BA5 /* HabitName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitName.swift; sourceTree = "<group>"; };
 		A386427C2B65A3DA00B3F3FA /* Habitual-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Habitual-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A386427F2B65A3DA00B3F3FA /* Habitual_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habitual_iOSApp.swift; sourceTree = "<group>"; };
-		A38642812B65A3DA00B3F3FA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A38642812B65A3DA00B3F3FA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		A38642832B65A3DB00B3F3FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A38642862B65A3DB00B3F3FA /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A386428C2B65A3DB00B3F3FA /* Habitual-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Habitual-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,7 +101,10 @@
 			isa = PBXGroup;
 			children = (
 				A386427F2B65A3DA00B3F3FA /* Habitual_iOSApp.swift */,
-				A38642812B65A3DA00B3F3FA /* ContentView.swift */,
+				A333B4F02B65B5B400502BA5 /* Habit.swift */,
+				A333B4F42B69FEF000502BA5 /* HabitName.swift */,
+				A38642812B65A3DA00B3F3FA /* HomeView.swift */,
+				A333B4F22B69E97800502BA5 /* HomeViewModifier.swift */,
 				A38642832B65A3DB00B3F3FA /* Assets.xcassets */,
 				A38642852B65A3DB00B3F3FA /* Preview Content */,
 			);
@@ -257,7 +266,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A38642822B65A3DA00B3F3FA /* ContentView.swift in Sources */,
+				A333B4F52B69FEF000502BA5 /* HabitName.swift in Sources */,
+				A333B4F32B69E97800502BA5 /* HomeViewModifier.swift in Sources */,
+				A333B4F12B65B5B400502BA5 /* Habit.swift in Sources */,
+				A38642822B65A3DA00B3F3FA /* HomeView.swift in Sources */,
 				A38642802B65A3DA00B3F3FA /* Habitual_iOSApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
