@@ -30,3 +30,7 @@ struct HabitColor: ViewModifier {
             .foregroundColor(colorScheme == .good ? .green : .red)
     }
 }
+
+#Preview {
+    HomeView()
+}
