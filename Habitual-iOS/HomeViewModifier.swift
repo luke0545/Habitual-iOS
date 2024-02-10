@@ -9,13 +9,13 @@ import Foundation
 import SwiftUI
 
 struct HabitStyle: ViewModifier {
-    let skyBlue = Color(red: 0.27, green: 0.7392, blue: 0.5)
+    let habitGreen = Color(red: 0.17, green: 0.33, blue: 0.2)
     func body(content: Content) -> some View {
         content
-            .frame(width:200, height: 50)
-            .padding(12)
-            .background(skyBlue.opacity(0.7))
-            .cornerRadius(10)
+            .frame(width:170, height: 40)
+            .padding(15)
+            .background(habitGreen.opacity(0.7))
+            .cornerRadius(6)
     }
 }
 

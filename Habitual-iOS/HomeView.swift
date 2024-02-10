@@ -7,39 +7,87 @@
 
 import SwiftUI
 
-struct HomeView: View {
+// Add repetition button
+struct PlusButton: View 
+{
+    let action: () -> Void
+
+    var body: some View 
+    {
+        Button(action: action) 
+        {
+            Image(systemName: "plus")
+                .font(.system(size: 30, weight: .bold))
+                .foregroundColor(.white)
+                .padding(5)
+                .background(Color.gray.cornerRadius(10))
+                //.clipShape(Circle())
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+struct HomeView: View 
+{
     
-    // Initialize empty array
+    // Initialize empty arrays
     @State private var habits: [Habit] = []
-//    @State private var singleHabit: Habit = Habit(id: 1, habitId: 2, name: "Workout", type: "Good", difficulty: 4, userId: 3, repetitionsDay: 1, repetitionsWeek: 4)
+    @State private var records: [Record] = []
     
-    var body: some View {
-        VStack {
-            
-            // Define List of Habit objects
+    // @State private var singleHabit: Habit = Habit(id: 1, habitId: 2, name: "Workout", type: "Good", difficulty: 4, userId: 3, repetitionsDay: 1, repetitionsWeek: 4)
+    
+    var body: some View 
+    {
+        //NavigationSection()
+        VStack
+        {
+            // Display habits[]
             List(habits)
             {
-                habitName in
-                Text(habitName.name)
-                   .modifier(HabitStyle())
-                   .offset(x: -10.0) // Shift 56 points to the left
-                   // .modifier(HabitColor(colorScheme: .init(rawValue: habit.type) ?? .bad)) // Apply habit color
-                
+                habit in
+                // for each habit in the array, create HStack to populate each row
+                HStack
+                {
+                    PlusButton
+                    {
+                        Task
+                        {
+                            // call API to increase repetition count
+                            print("hello")
+                            
+                        }
+                    }
+                    // Habit name block with ViewModifier
+                    Text(habit.name)
+                       .modifier(HabitStyle())
+                       .font(.system(size: 22, weight: .bold))
+                       .foregroundColor(.white)
+                       .offset(x: -0.0) // Shift 56 points to the left
+                       // .modifier(HabitColor(colorScheme: .init(rawValue: habit.type) ?? .bad)) // Apply habit color
+                    
+                    // list repetitions
+                    let repCount = 0
+                    ForEach(records)
+                    {
+                        record in
+                        if(habit.habitId == record.habitId)
+                        {
+                            //repCount += 1
+                            Text(record.updateNum)
+                        }
+                    }
+                }
             }
-            
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
         }
         .task
         {
             await fetchHabits()
+            await fetchRecords()
         }
         .padding(0)
-        
-        
+        .frame(width:380, height: 500)
     }
+    
     func fetchHabits() async
     {
         do
@@ -55,48 +103,24 @@ struct HomeView: View {
             print("Error fetching habits: \(error)")
         }
     }
-}
-
-
-func getHabits() async throws -> [Habit]
-{
-    let endpoint = "http://localhost:3000/allhabits"
     
-    guard let url = URL(string: endpoint) else
+    func fetchRecords() async
     {
-        throw HABError.invalidURL
-    }
-    
-    let (data, response) = try await URLSession.shared.data(from: url)
-    //print("Received Data: ", data)
-    
-    // Handle response error
-    guard let response = response as? HTTPURLResponse, response.statusCode == 200 else
-    {
-        throw HABError.invalidResponse
-    }
-    
-    // handle data from API
-    do
-    {
-        let decoder = JSONDecoder()
-        // convert property names from snake_case in the database to camelCase to comply with swift best practices
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        //print("Raw JSON data:", String(decoding: data, as: UTF8.self))
-        return try decoder.decode([Habit].self, from: data)
-    } catch
-    {
-        throw HABError.invalidData
+        do
+        {
+            let recordsList = try await getRecords()
+            // Update state on the main thread for consistent UI updates
+            DispatchQueue.main.async
+            {
+                self.records = recordsList
+            }
+        } catch
+        {
+            print("Error fetching records: \(error)")
+        }
     }
 }
 
 #Preview {
     HomeView()
-}
-
-enum HABError: Error
-{
-    case invalidURL
-    case invalidResponse
-    case invalidData
 }

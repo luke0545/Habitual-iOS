@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A3232FF12B774DA40038FE49 /* NavigationSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3232FF02B774DA40038FE49 /* NavigationSection.swift */; };
+		A3232FF32B774DF10038FE49 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3232FF22B774DF10038FE49 /* ActivityView.swift */; };
+		A3232FF52B774EE30038FE49 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3232FF42B774EE30038FE49 /* APIClient.swift */; };
+		A3232FF72B7759D50038FE49 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3232FF62B7759D50038FE49 /* Record.swift */; };
 		A333B4F12B65B5B400502BA5 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A333B4F02B65B5B400502BA5 /* Habit.swift */; };
 		A333B4F32B69E97800502BA5 /* HomeViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A333B4F22B69E97800502BA5 /* HomeViewModifier.swift */; };
 		A333B4F52B69FEF000502BA5 /* HabitName.swift in Sources */ = {isa = PBXBuildFile; fileRef = A333B4F42B69FEF000502BA5 /* HabitName.swift */; };
@@ -37,6 +41,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A3232FF02B774DA40038FE49 /* NavigationSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationSection.swift; sourceTree = "<group>"; };
+		A3232FF22B774DF10038FE49 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		A3232FF42B774EE30038FE49 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		A3232FF62B7759D50038FE49 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
 		A333B4F02B65B5B400502BA5 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Habit.swift; path = Models/Habit.swift; sourceTree = "<group>"; };
 		A333B4F22B69E97800502BA5 /* HomeViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModifier.swift; sourceTree = "<group>"; };
 		A333B4F42B69FEF000502BA5 /* HabitName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitName.swift; sourceTree = "<group>"; };
@@ -101,12 +109,16 @@
 			isa = PBXGroup;
 			children = (
 				A386427F2B65A3DA00B3F3FA /* Habitual_iOSApp.swift */,
+				A3232FF62B7759D50038FE49 /* Record.swift */,
 				A333B4F02B65B5B400502BA5 /* Habit.swift */,
 				A333B4F42B69FEF000502BA5 /* HabitName.swift */,
+				A3232FF02B774DA40038FE49 /* NavigationSection.swift */,
+				A3232FF22B774DF10038FE49 /* ActivityView.swift */,
 				A38642812B65A3DA00B3F3FA /* HomeView.swift */,
 				A333B4F22B69E97800502BA5 /* HomeViewModifier.swift */,
 				A38642832B65A3DB00B3F3FA /* Assets.xcassets */,
 				A38642852B65A3DB00B3F3FA /* Preview Content */,
+				A3232FF42B774EE30038FE49 /* APIClient.swift */,
 			);
 			path = "Habitual-iOS";
 			sourceTree = "<group>";
@@ -268,7 +280,11 @@
 			files = (
 				A333B4F52B69FEF000502BA5 /* HabitName.swift in Sources */,
 				A333B4F32B69E97800502BA5 /* HomeViewModifier.swift in Sources */,
+				A3232FF72B7759D50038FE49 /* Record.swift in Sources */,
 				A333B4F12B65B5B400502BA5 /* Habit.swift in Sources */,
+				A3232FF52B774EE30038FE49 /* APIClient.swift in Sources */,
+				A3232FF12B774DA40038FE49 /* NavigationSection.swift in Sources */,
+				A3232FF32B774DF10038FE49 /* ActivityView.swift in Sources */,
 				A38642822B65A3DA00B3F3FA /* HomeView.swift in Sources */,
 				A38642802B65A3DA00B3F3FA /* Habitual_iOSApp.swift in Sources */,
 			);
