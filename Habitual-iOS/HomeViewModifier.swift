@@ -9,10 +9,12 @@ import Foundation
 import SwiftUI
 
 struct HabitStyle: ViewModifier {
+    let skyBlue = Color(red: 0.27, green: 0.7392, blue: 0.5)
     func body(content: Content) -> some View {
         content
-            .padding()
-            .background(Color.green.opacity(0.8))
+            .frame(width:200, height: 50)
+            .padding(12)
+            .background(skyBlue.opacity(0.7))
             .cornerRadius(10)
     }
 }
