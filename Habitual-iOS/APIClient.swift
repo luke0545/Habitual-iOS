@@ -76,7 +76,7 @@ func getRecords() async throws -> [Record]
 
 // Update habit record
 // method returns Int of updated repetition number
-func updateHabitRecord(habit: Habit) async throws -> Int
+func updateHabitRecord(habit: Habit) async throws -> ()
 {
     
     let endpoint = "http://localhost:3000/updatehabitrecord"
@@ -109,7 +109,6 @@ func updateHabitRecord(habit: Habit) async throws -> Int
     }
     // Parse the returned integer value from the response data
     let returnValue = try JSONDecoder().decode(Int.self, from: data)
-    return returnValue
 }
 
 

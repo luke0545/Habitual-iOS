@@ -22,7 +22,6 @@ struct PlusButton: View
                 .foregroundColor(.white)
                 .padding(5)
                 .background(Color.gray.cornerRadius(10))
-                //.clipShape(Circle())
         }
         .buttonStyle(.plain)
     }
@@ -38,35 +37,46 @@ struct HomeView: View
     @State private var records: [Record] = []
     
     // Access the binding directly within the view's body
-        var recordsBinding: Binding<Array<Record>> {
+        var recordsBinding: Binding<Array<Record>> 
+        {
             Binding(get: { self.records }, set: { self.records = $0 })
         }
     // @State private var singleHabit: Habit = Habit(id: 1, habitId: 2, name: "Workout", type: "Good", difficulty: 4, userId: 3, repetitionsDay: 1, repetitionsWeek: 4)
     
     var body: some View 
     {
-        
-        NavigationView {
-            ZStack {
+        // Nav section
+        NavigationView 
+        {
+            ZStack
+            {
                 NavigationSection(currentPage: currentPage)
-                    
             }
         }
-        //NavigationSection()
         VStack
         {
-            // Display habits[]
+            // Title the repetition count
+            HStack
+            {
+                Spacer()
+                    
+                Text("Total")
+                    .padding(.horizontal, 80)
+            }
+            
             List(habits)
             {
                 habit in
                 // for each habit in the array, create HStack to populate each row
                 HStack
                 {
-                    //let repCount = 0
-                    PlusButton(action: {
-                        Task {
+                    PlusButton(action: 
+                    {
+                        Task 
+                        {
                             try await updateHabitRecord(habit: habit)
-                            await fetchRecords() // Refresh the records
+                            // Refresh the records
+                            await fetchRecords()
                         }
                     }, recordsBinding: recordsBinding)
                     
@@ -75,7 +85,6 @@ struct HomeView: View
                        .modifier(HabitStyle())
                        .font(.system(size: 22, weight: .bold))
                        .foregroundColor(.white)
-                       .offset(x: -0.0) // Shift 56 points to the left
                        // .modifier(HabitColor(colorScheme: .init(rawValue: habit.type) ?? .bad)) // Apply habit color
                     
                     // list repetitions
@@ -84,8 +93,12 @@ struct HomeView: View
                         record in
                         if(habit.habitId == record.habitId)
                         {
-                            // Use a binding to update the view
+                            // Display the repetition number
+                            Spacer()
+                                .frame(width: 30)
                             Text(record.updateNum)
+                                .font(.system(size: 20))
+                                
                         }
                     }
                 }
@@ -97,7 +110,7 @@ struct HomeView: View
             await fetchRecords()
         }
         .padding(0)
-        .frame(width:380, height: 500)
+        .frame(width:420, height: 670)
     }
     
     func fetchHabits() async
@@ -120,7 +133,8 @@ struct HomeView: View
     {
         do
         {
-            let rawRecordsList = try await getRecords() // Get records from server
+            // Get records from server
+            let rawRecordsList = try await getRecords()
 
                     // Filter and keep only one record per habit_id
                     let filteredRecords = Dictionary(grouping: rawRecordsList, by: \.habitId)
@@ -128,7 +142,8 @@ struct HomeView: View
                          .map { $0.max(by: { $0.updateNum < $1.updateNum })! }
 
                     // Update the state array on the main thread
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.async 
+                    {
                         self.records = filteredRecords
                     }
         } catch
@@ -137,7 +152,8 @@ struct HomeView: View
         }
     }
     
-//    func updateHabitAndRefreshUI(habit: Habit) async -> Int {
+//    func updateHabitAndRefreshUI(habit: Habit) async -> Int 
+//    {
 //
 //            do {
 //                let returnInt = try await updateHabitRecord(habit: habit)

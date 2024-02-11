@@ -10,9 +10,10 @@ import SwiftUI
 
 struct ActivityView: View 
 {
-
-
-    // Initialize empty array
+    // State current page
+    @State private var currentPage: String = "Activity"
+    
+    // Initialize empty arrays
     @State private var habits: [Habit] = []
     @State private var records: [Record] = []
     

@@ -38,7 +38,6 @@ struct NavigationSection: View {
                 Spacer()
             }
         }
-        .frame(height: 40)
     }
 }
 
