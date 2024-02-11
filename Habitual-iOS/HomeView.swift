@@ -64,9 +64,8 @@ struct HomeView: View
                 {
                     //let repCount = 0
                     PlusButton(action: {
-                        print("hello")
                         Task {
-                            let updateNum = try await updateHabitRecord(habit: habit)
+                            try await updateHabitRecord(habit: habit)
                             await fetchRecords() // Refresh the records
                         }
                     }, recordsBinding: recordsBinding)
@@ -121,12 +120,17 @@ struct HomeView: View
     {
         do
         {
-            let recordsList = try await getRecords()
-            // Update state on the main thread for consistent UI updates
-            DispatchQueue.main.async
-            {
-                self.records = recordsList
-            }
+            let rawRecordsList = try await getRecords() // Get records from server
+
+                    // Filter and keep only one record per habit_id
+                    let filteredRecords = Dictionary(grouping: rawRecordsList, by: \.habitId)
+                         .values
+                         .map { $0.max(by: { $0.updateNum < $1.updateNum })! }
+
+                    // Update the state array on the main thread
+                    DispatchQueue.main.async {
+                        self.records = filteredRecords
+                    }
         } catch
         {
             print("Error fetching records: \(error)")
