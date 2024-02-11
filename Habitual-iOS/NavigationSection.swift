@@ -8,32 +8,40 @@
 import Foundation
 import SwiftUI
 
+import SwiftUI
+
 struct NavigationSection: View {
-    @State private var currentPage: String = "Home"
+    let currentPage: String // "Home" or "Activity"
 
     var body: some View {
-        VStack {
+        VStack
+        {
+            Text("Habitual")
+                .font(.title)
+                .fontWeight(.bold)
+                .padding(10)
+
             HStack {
-                Button(currentPage == "Home" ? "Home (active)" : "Home") {
-                    currentPage = "Home"
-                }
-                .buttonStyle(.plain)
-                .foregroundColor(currentPage == "Home" ? .blue : .gray)
+                
+                Spacer()
+                Text("Home")
+                    .font(.body)
+                    .foregroundColor(currentPage == "Home" ? Color.accentColor : .gray)
+                    .padding(.horizontal, 40)
+                    .fontWeight(.bold)
 
-                Button(currentPage == "Activity" ? "Activity (active)" : "Activity") {
-                    currentPage = "Activity"
-                }
-                .buttonStyle(.plain)
-                .foregroundColor(currentPage == "Activity" ? .blue : .gray)
-            }
-            .padding(.horizontal)
-
-            // Place your content views for Home and Activity here
-            if currentPage == "Home" {
-                HomeView()
-            } else {
-                ActivityView()
+                Text("Activity")
+                    .font(.body)
+                    .foregroundColor(currentPage == "Activity" ? Color.accentColor : .gray)
+                    .padding(.horizontal, 40)
+                    .fontWeight(.bold)
+                Spacer()
             }
         }
+        .frame(height: 40)
     }
+}
+
+#Preview {
+    HomeView()
 }

@@ -11,8 +11,9 @@ import SwiftUI
 struct PlusButton: View 
 {
     let action: () -> Void
-
-    var body: some View 
+    let recordsBinding: Binding<Array<Record>>
+    
+    var body: some View
     {
         Button(action: action) 
         {
@@ -29,15 +30,28 @@ struct PlusButton: View
 
 struct HomeView: View 
 {
+    // State current page
+    @State private var currentPage: String = "Home"
     
     // Initialize empty arrays
     @State private var habits: [Habit] = []
     @State private var records: [Record] = []
     
+    // Access the binding directly within the view's body
+        var recordsBinding: Binding<Array<Record>> {
+            Binding(get: { self.records }, set: { self.records = $0 })
+        }
     // @State private var singleHabit: Habit = Habit(id: 1, habitId: 2, name: "Workout", type: "Good", difficulty: 4, userId: 3, repetitionsDay: 1, repetitionsWeek: 4)
     
     var body: some View 
     {
+        
+        NavigationView {
+            ZStack {
+                NavigationSection(currentPage: currentPage)
+                    
+            }
+        }
         //NavigationSection()
         VStack
         {
@@ -48,15 +62,15 @@ struct HomeView: View
                 // for each habit in the array, create HStack to populate each row
                 HStack
                 {
-                    PlusButton
-                    {
-                        Task
-                        {
-                            // call API to increase repetition count
-                            print("hello")
-                            
+                    //let repCount = 0
+                    PlusButton(action: {
+                        print("hello")
+                        Task {
+                            let updateNum = try await updateHabitRecord(habit: habit)
+                            await fetchRecords() // Refresh the records
                         }
-                    }
+                    }, recordsBinding: recordsBinding)
+                    
                     // Habit name block with ViewModifier
                     Text(habit.name)
                        .modifier(HabitStyle())
@@ -66,13 +80,12 @@ struct HomeView: View
                        // .modifier(HabitColor(colorScheme: .init(rawValue: habit.type) ?? .bad)) // Apply habit color
                     
                     // list repetitions
-                    let repCount = 0
                     ForEach(records)
                     {
                         record in
                         if(habit.habitId == record.habitId)
                         {
-                            //repCount += 1
+                            // Use a binding to update the view
                             Text(record.updateNum)
                         }
                     }
@@ -119,6 +132,20 @@ struct HomeView: View
             print("Error fetching records: \(error)")
         }
     }
+    
+//    func updateHabitAndRefreshUI(habit: Habit) async -> Int {
+//
+//            do {
+//                let returnInt = try await updateHabitRecord(habit: habit)
+//                print("Habit record updated successfully!")
+//                await fetchRecords() // Refresh the records
+//                return returnInt
+//            } catch {
+//                print("Error updating habit record: \(error)")
+//                // Handle errors appropriately
+//            }
+//        return 0
+//    }
 }
 
 #Preview {

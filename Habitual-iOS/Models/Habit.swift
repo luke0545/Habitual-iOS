@@ -12,7 +12,7 @@ struct Habit: Codable, Identifiable {
     var name: String
     var type: String
     var difficulty: Int
-    var dateAdded: Date? // Optional to handle potential "null" values
+    var dateAdded: Date? // Optional to handle potential null values
     var userId: Int
     var repetitionsDay: Int
     var repetitionsWeek: Int

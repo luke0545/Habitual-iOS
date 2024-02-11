@@ -8,11 +8,18 @@
 import Foundation
 import SwiftUI
 
-struct ActivityView: View {
+struct ActivityView: View 
+{
 
 
     // Initialize empty array
     @State private var habits: [Habit] = []
+    @State private var records: [Record] = []
+    
+    // Access the binding directly within the view's body
+        var recordsBinding: Binding<Array<Record>> {
+            Binding(get: { self.records }, set: { self.records = $0 })
+        }
 //    @State private var singleHabit: Habit = Habit(id: 1, habitId: 2, name: "Workout", type: "Good", difficulty: 4, userId: 3, repetitionsDay: 1, repetitionsWeek: 4)
     
     
@@ -28,13 +35,13 @@ struct ActivityView: View {
                 habitName in
                 HStack
                 {
-                    PlusButton
+                    PlusButton(action: 
                     {
                         Task
                         {
                             print("hello")
                         }
-                    }
+                    }, recordsBinding: recordsBinding)
                     
                     Text(habitName.name)
                        .modifier(HabitStyle())
