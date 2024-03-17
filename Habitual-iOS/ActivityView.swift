@@ -7,6 +7,41 @@
 
 import Foundation
 import SwiftUI
+import Charts
+
+//struct LineChartView: View {
+//    // Repetition data (hardcoded integer arrays)
+//    let habit1Repetitions: [Int] = [10, 12, 15, 18, 20, 22, 25] // Habit 1
+//    let habit2Repetitions: [Int] = [8, 9, 11, 14, 16, 19, 21] // Habit 2
+//    // Add more habits as needed...
+//
+//    var body: some View {
+//        Chart {
+//            // Create a line chart with multiple lines
+//            LineMark(x: .value("Day", 1), y: .value(habit1Repetitions[0]))
+//            LineMark(x: .array(Array(0..<7).map(Int.init)), y: .array(habit2Repetitions))
+//            // Add more lines for additional habits...
+//        }
+//    }
+//}
+//
+//// Usage
+//struct ContentView: View {
+//    var body: some View {
+//        NavigationView {
+//            LineChartView()
+//                .navigationBarTitle("Habit Repetitions")
+//        }
+//    }
+//}
+//
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView()
+//    }
+//}
+
+
 
 struct ActivityView: View 
 {
@@ -25,8 +60,8 @@ struct ActivityView: View
     
     
     var body: some View {
-        
-        
+
+        //LineChartView()
         
         VStack {
             
@@ -62,6 +97,12 @@ struct ActivityView: View
         
         
     }
+    
+    // Line chart
+    
+
+
+    
     func fetchHabits() async
     {
         do
@@ -78,6 +119,8 @@ struct ActivityView: View
         }
     }
 }
+
+
 
 #Preview {
     ActivityView()

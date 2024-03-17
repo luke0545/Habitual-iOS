@@ -27,11 +27,90 @@ struct PlusButton: View
     }
 }
 
+// Add Habit form
+struct CustomPopupView: View 
+{
+    // Habit parameters
+    @State private var habitName = ""
+    @State private var repetitionsPerWeek = 1
+    @State private var difficulty = 3
+    @State private var habitType = true // Default to "Good"
+    // check whether plus button is active
+    @Binding var showPopup: Bool
+
+    var body: some View 
+    {
+        VStack
+        {
+            HStack
+            {
+                Button(action: 
+                {
+                    showPopup.toggle() // Close the popup
+                }) 
+                    {
+                        Text("Close")
+                            .font(.title)
+                            .foregroundColor(.gray)
+                    }
+                    .padding()
+            }
+//            Text("Add Habit")
+//                .font(.title)
+//                .padding()
+
+            // Add your form inputs here (text fields, pickers, etc.)
+            NavigationView {
+                        Form {
+                            Section(header: Text("Habit Details")) 
+                            {
+                                TextField("Enter a habit", text: $habitName)
+                                Stepper("Anticipated reps per week: \(repetitionsPerWeek)", value: $repetitionsPerWeek, in: 1...14)
+                                Picker("Difficulty", selection: $difficulty)
+                                {
+                                    ForEach(1..<6)
+                                    {
+                                        level in
+                                        Text("\(level)")
+                                    }
+                                }
+                                Toggle("Is it a good habit?", isOn: $habitType)
+                            }
+
+                            Section 
+                            {
+                                Button(action: 
+                                {
+                                    // Print the habit details to console
+                                    print("Habit Name: \(habitName)")
+                                    print("Repetitions per day: \(repetitionsPerWeek)")
+                                    print("Difficulty: \(difficulty)")
+                                    print("Habit Type: \(habitType)")
+                                    showPopup.toggle()
+                                    
+                                    // API call to add habit
+                                    
+                                })
+                                {
+                                    Text("Add Habit")
+                                }
+                            }
+                        }
+                        .navigationBarTitle("Add Habit")
+                    }
+        }
+        .background(Color.white)
+        .cornerRadius(10)
+        .padding()
+    }
+}
+
 struct HomeView: View 
 {
     // State current page
     @State private var currentPage: String = "Home"
-    
+    // State for 'Add Habit' popup
+    @State private var showPopup = false
     // Initialize empty arrays
     @State private var habits: [Habit] = []
     @State private var records: [Record] = []
@@ -53,57 +132,83 @@ struct HomeView: View
                 NavigationSection(currentPage: currentPage)
             }
         }
-        VStack
+        ZStack
         {
-            // Title the repetition count
-            HStack
+            VStack
             {
-                Spacer()
-                    
-                Text("Total")
-                    .padding(.horizontal, 80)
-            }
-            
-            List(habits)
-            {
-                habit in
-                // for each habit in the array, create HStack to populate each row
+                // Title the repetition count
                 HStack
                 {
-                    PlusButton(action: 
-                    {
-                        Task 
-                        {
-                            try await updateHabitRecord(habit: habit)
-                            // Refresh the records
-                            await fetchRecords()
-                        }
-                    }, recordsBinding: recordsBinding)
+                    Spacer()
                     
-                    // Habit name block with ViewModifier
-                    Text(habit.name)
-                       .modifier(HabitStyle())
-                       .font(.system(size: 22, weight: .bold))
-                       .foregroundColor(.white)
-                       // .modifier(HabitColor(colorScheme: .init(rawValue: habit.type) ?? .bad)) // Apply habit color
+                    Text("Total")
+                        .padding(.horizontal, 80)
                     
-                    // list repetitions
-                    ForEach(records)
+                }
+                
+                List(habits)
+                {
+                    habit in
+                    // for each habit in the array, create HStack to populate each row
+                    HStack
                     {
-                        record in
-                        if(habit.habitId == record.habitId)
+                        PlusButton(action:
+                                    {
+                            Task
+                            {
+                                try await updateHabitRecord(habit: habit)
+                                // Refresh the records
+                                await fetchRecords()
+                            }
+                        }, recordsBinding: recordsBinding)
+                        
+                        // Habit name block with ViewModifier
+                        Text(habit.name)
+                            .modifier(HabitStyle())
+                            .font(.system(size: 22, weight: .bold))
+                            .foregroundColor(.white)
+                        // .modifier(HabitColor(colorScheme: .init(rawValue: habit.type) ?? .bad)) // Apply habit color
+                        
+                        // list repetitions
+                        ForEach(records)
                         {
-                            // Display the repetition number
-                            Spacer()
-                                .frame(width: 30)
-                            Text(record.updateNum)
-                                .font(.system(size: 20))
+                            record in
+                            if(habit.habitId == record.habitId)
+                            {
+                                // Display the repetition number
+                                Spacer()
+                                    .frame(width: 30)
+                                Text(record.updateNum)
+                                    .font(.system(size: 20))
                                 
+                            }
                         }
                     }
                 }
             }
+            // Add Habit button
+            // Button to trigger the popup
+            Button(action:
+            {
+                showPopup.toggle()
+            }) {
+                Image(systemName: "plus")
+                    .font(.system(size: 40, weight: .bold))
+                    .foregroundColor(.black)
+            }
+            .padding()
+            .offset(x: +140, y: -395) // Adjust the position of the button
+
+            // Custom popup view
+            if showPopup
+            {
+                CustomPopupView(showPopup: $showPopup)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.5))
+                    .edgesIgnoringSafeArea(.all)
+            }
         }
+        
         .task
         {
             await fetchHabits()
