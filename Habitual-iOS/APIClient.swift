@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Get all habits
+// GET ALL HABITS //
 func getHabits() async throws -> [Habit]
 {
     let endpoint = "http://localhost:3000/allhabits"
@@ -41,7 +41,7 @@ func getHabits() async throws -> [Habit]
 }
 
 
-// Get all records
+// GET ALL RECORDS //
 func getRecords() async throws -> [Record]
 {
     let endpoint = "http://localhost:3000/allrecords"
@@ -74,8 +74,8 @@ func getRecords() async throws -> [Record]
     }
 }
 
-// Update habit record
-// method returns Int of updated repetition number
+// ADD 1 TO HABIT RECORD //
+// method prints Int of updated repetition number
 func updateHabitRecord(habit: Habit) async throws -> ()
 {
     
@@ -109,6 +109,61 @@ func updateHabitRecord(habit: Habit) async throws -> ()
     }
     // Parse the returned integer value from the response data
     let returnValue = try JSONDecoder().decode(Int.self, from: data)
+    print(returnValue)
+}
+
+// ADD HABIT //
+func addHabit(habit: Habit, completion: @escaping (Result<Void, Error>) -> Void) {
+    // Generate current date time in ISO 8601 format
+    let currentDateTimeISO = ISO8601DateFormatter().string(from: Date())
+
+    guard let url = URL(string: "http://localhost:3000/addhabit") else {
+        completion(.failure(URLError(.badURL)))
+        return
+    }
+
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+
+    // Construct JSON body with currentDateTimeISO
+    let body: [String: Any] = [
+        "name": habit.name,
+        "type": habit.type,
+        "Difficulty": habit.difficulty,
+        "Date_added": currentDateTimeISO,
+        "user_id": habit.userId,
+        "repetitions_day": habit.repetitionsDay,
+        "repetitions_week": habit.repetitionsWeek
+    ]
+
+    do 
+    {
+        let jsonData = try JSONSerialization.data(withJSONObject: body, options: [])
+        request.httpBody = jsonData
+    } 
+    catch 
+    {
+        completion(.failure(error))
+        return
+    }
+
+    URLSession.shared.dataTask(with: request) { data, response, error in
+        if let error = error {
+            completion(.failure(error))
+            return
+        }
+
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) 
+        else
+        {
+            completion(.failure(HABError.unexpectedResponse))
+            return
+        }
+
+        completion(.success(()))
+    }.resume()
 }
 
 
@@ -118,4 +173,5 @@ enum HABError: Error
     case invalidURL
     case invalidResponse
     case invalidData
+    case unexpectedResponse
 }

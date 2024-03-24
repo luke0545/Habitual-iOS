@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-// Add repetition button
-struct PlusButton: View 
+// ============ ADD HABIT REP (+) BUTTON ============= //
+struct PlusButton: View
 {
     let action: () -> Void
     let recordsBinding: Binding<Array<Record>>
@@ -27,14 +27,15 @@ struct PlusButton: View
     }
 }
 
-// Add Habit form
-struct CustomPopupView: View 
+// ============ ADD HABIT FORM ============= //
+struct CustomPopupView: View
 {
     // Habit parameters
     @State private var habitName = ""
     @State private var repetitionsPerWeek = 1
     @State private var difficulty = 3
     @State private var habitType = true // Default to "Good"
+    @State private var habitGood = ""
     // check whether plus button is active
     @Binding var showPopup: Bool
 
@@ -88,7 +89,20 @@ struct CustomPopupView: View
                                     print("Habit Type: \(habitType)")
                                     showPopup.toggle()
                                     
-                                    // API call to add habit
+                                    let sendHabit = Habit(habitId: 2, name: habitName, type: habitType ? "good" : "bad", difficulty: difficulty, userId: 1, repetitionsDay: 0, repetitionsWeek: repetitionsPerWeek)
+                                    
+                                    addHabit(habit: sendHabit)
+                                    { 
+                                        result in
+                                        switch result {
+                                        case .success:
+                                            print("Habit added")
+                                        case .failure(let error):
+                                            print("Error adding habit: \(error)")
+                                        }
+                                    }
+
+
                                     
                                 })
                                 {
@@ -122,7 +136,8 @@ struct HomeView: View
         }
     // @State private var singleHabit: Habit = Habit(id: 1, habitId: 2, name: "Workout", type: "Good", difficulty: 4, userId: 3, repetitionsDay: 1, repetitionsWeek: 4)
     
-    var body: some View 
+    // ============ HABIT LIST VIEW ============= //
+    var body: some View
     {
         // Nav section
         NavigationView 
@@ -218,6 +233,7 @@ struct HomeView: View
         .frame(width:420, height: 670)
     }
     
+    // ========= FETCH HABITS ========= //
     func fetchHabits() async
     {
         do
@@ -233,7 +249,7 @@ struct HomeView: View
             print("Error fetching habits: \(error)")
         }
     }
-    
+    // ========= FETCH RECORDS ========= //
     func fetchRecords() async
     {
         do
@@ -241,7 +257,7 @@ struct HomeView: View
             // Get records from server
             let rawRecordsList = try await getRecords()
 
-                    // Filter and keep only one record per habit_id
+                    // Filter and keep only one record (the most recent) per habit_id
                     let filteredRecords = Dictionary(grouping: rawRecordsList, by: \.habitId)
                          .values
                          .map { $0.max(by: { $0.updateNum < $1.updateNum })! }
