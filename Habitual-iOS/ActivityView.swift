@@ -9,14 +9,15 @@ import Foundation
 import SwiftUI
 import Charts
 
-struct LineChartView: View {
-    // Repetition data (hardcoded integer arrays)
-    let habit1Reps: [Int] = [10, 12, 15, 18, 20, 22, 25] // Habit 1
-    let habit2Reps: [Int] = [8, 9, 11, 14, 16, 19, 21] // Habit 2
-    // Add more habits as needed...
+struct LineChartView: View 
+{
+    // Repetition data (hardcoded integer array to test)
+    let habit1Reps: [Int] = [8, 3, 6, 7, 7, 5, 9] // Habit 1
 
-    var body: some View {
-        Chart {
+    var body: some View 
+    {
+        Chart 
+        {
             // Create a line chart with multiple lines
             LineMark(
                 x: .value("Day", 0),
@@ -46,10 +47,8 @@ struct LineChartView: View {
                 x: .value("Day", 6),
                 y: .value("num", habit1Reps[6])
             )
-            //LineMark(x: .array(Array(0..<7).map(Int.init)), y: .array(habit2Reps))
-            // Add more lines for additional habits...
         }
-        .frame(height: 300)
+        
     }
 }
 
@@ -60,12 +59,30 @@ struct ContentView: View {
             LineChartView()
                 .navigationBarTitle("Habit Repetitions")
         }
+        .frame(height: 300)
     }
+    
 }
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+
+// ============ SELECT HABIT TO VIEW CHART ============= //
+struct SelHabButton: View
+{
+    let action: () -> Void
+    let recordsBinding: Binding<Array<Record>>
+    
+    var body: some View
+    {
+        Button(action: action)
+        {
+            Image(systemName: "plus")
+                .font(.system(size: 30, weight: .bold))
+                .foregroundColor(.white)
+                .padding(5)
+                .background(Color.gray.cornerRadius(10))
+                .modifier(HabitStyle())
+        }
+        .buttonStyle(.plain)
     }
 }
 
@@ -88,10 +105,19 @@ struct ActivityView: View
     
     
     var body: some View {
-
+        // Nav section
+        NavigationView
+        {
+            ZStack
+            {
+                NavigationSection(currentPage: currentPage)
+            }
+            
+        }
         LineChartView()
         
-        VStack {
+        VStack 
+        {
             
             // Display habits[]
             List(habits)
@@ -99,7 +125,7 @@ struct ActivityView: View
                 habitName in
                 HStack
                 {
-                    PlusButton(action: 
+                    SelHabButton(action:
                     {
                         Task
                         {
@@ -119,9 +145,10 @@ struct ActivityView: View
         .task
         {
             await fetchHabits()
+            await fetchRecords()
         }
         .padding(0)
-        //.frame(width:280, height: 500)
+        .frame(width:420, height: 470)
         
         
     }
@@ -130,7 +157,7 @@ struct ActivityView: View
     
 
 
-    
+    // ========= FETCH ALL HABITS ========= //
     func fetchHabits() async
     {
         do
@@ -144,6 +171,30 @@ struct ActivityView: View
         } catch
         {
             print("Error fetching habits: \(error)")
+        }
+    }
+    
+    // ========= FETCH RECORDS ========= //
+    func fetchRecords() async
+    {
+        do
+        {
+            // Get records from server
+            let rawRecordsList = try await getRecords()
+
+                    // Filter and keep only one record (the most recent) per habit_id
+                    let filteredRecords = Dictionary(grouping: rawRecordsList, by: \.habitId)
+                         .values
+                         .map { $0.max(by: { $0.updateNum < $1.updateNum })! }
+
+                    // Update the state array on the main thread
+                    DispatchQueue.main.async
+                    {
+                        self.records = filteredRecords
+                    }
+        } catch
+        {
+            print("Error fetching records: \(error)")
         }
     }
 }
