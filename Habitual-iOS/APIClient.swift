@@ -131,7 +131,7 @@ func addHabit(habit: Habit, completion: @escaping (Result<Void, Error>) -> Void)
         "name": habit.name,
         "type": habit.type,
         "Difficulty": habit.difficulty,
-        "Date_added": currentDateTimeISO,
+        "Date_added": "0000-00-00 00:00:00",
         "user_id": habit.userId,
         "repetitions_day": habit.repetitionsDay,
         "repetitions_week": habit.repetitionsWeek

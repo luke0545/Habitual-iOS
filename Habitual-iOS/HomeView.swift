@@ -28,7 +28,7 @@ struct PlusButton: View
 }
 
 // ============ ADD HABIT FORM ============= //
-struct CustomPopupView: View
+struct AddHabitPopupView: View
 {
     // Habit parameters
     @State private var habitName = ""
@@ -56,11 +56,8 @@ struct CustomPopupView: View
                     }
                     .padding()
             }
-//            Text("Add Habit")
-//                .font(.title)
-//                .padding()
 
-            // Add your form inputs here (text fields, pickers, etc.)
+            // Add habit form input fields
             NavigationView {
                         Form {
                             Section(header: Text("Habit Details")) 
@@ -101,9 +98,6 @@ struct CustomPopupView: View
                                             print("Error adding habit: \(error)")
                                         }
                                     }
-
-
-                                    
                                 })
                                 {
                                     Text("Add Habit")
@@ -124,7 +118,11 @@ struct HomeView: View
     // State current page
     @State private var currentPage: String = "Home"
     // State for 'Add Habit' popup
-    @State private var showPopup = false
+    @State private var showAddHabitPopup = false
+    // State for Details popup
+    @State private var showDetails = false
+    // Store the selected Habit
+    @State private var selectedHabit: Habit?
     // Initialize empty arrays
     @State private var habits: [Habit] = []
     @State private var records: [Record] = []
@@ -162,13 +160,12 @@ struct HomeView: View
                 }
                 
                 List(habits)
-                {
-                    habit in
+                { habit in
                     // for each habit in the array, create HStack to populate each row
                     HStack
                     {
                         PlusButton(action:
-                                    {
+                        {
                             Task
                             {
                                 try await updateHabitRecord(habit: habit)
@@ -177,11 +174,16 @@ struct HomeView: View
                             }
                         }, recordsBinding: recordsBinding)
                         
-                        // Habit name block with ViewModifier
-                        Text(habit.name)
-                            .modifier(HabitStyle())
-                            .font(.system(size: 22, weight: .bold))
-                            .foregroundColor(.white)
+                        // HABIT NAME BUTTON CLICK
+                        Button(habit.name)
+                        {
+                            selectedHabit = habit
+                            showDetails = true
+                        }
+                        .modifier(HabitStyle())
+                        .font(.system(size: 22, weight: .bold))
+                        .foregroundColor(.white)
+                        
                         // .modifier(HabitColor(colorScheme: .init(rawValue: habit.type) ?? .bad)) // Apply habit color
                         
                         // list repetitions
@@ -200,12 +202,19 @@ struct HomeView: View
                         }
                     }
                 }
+                .popover(isPresented: $showDetails) 
+                        {
+                            if let selectedHabit = selectedHabit
+                            {
+                                showHabitDetails(habit: selectedHabit)
+                            }
+                        }
             }
             // Add Habit button
             // Button to trigger the popup
             Button(action:
             {
-                showPopup.toggle()
+                showAddHabitPopup.toggle()
             }) {
                 Image(systemName: "plus")
                     .font(.system(size: 40, weight: .bold))
@@ -215,9 +224,9 @@ struct HomeView: View
             .offset(x: +140, y: -395) // Adjust the position of the button
 
             // Custom popup view
-            if showPopup
+            if showAddHabitPopup
             {
-                CustomPopupView(showPopup: $showPopup)
+                AddHabitPopupView(showPopup: $showAddHabitPopup)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .background(Color.black.opacity(0.5))
                     .edgesIgnoringSafeArea(.all)
@@ -232,6 +241,39 @@ struct HomeView: View
         .padding(0)
         .frame(width:420, height: 670)
     }
+    
+    // ============ SHOW HABIT DETAILS ============= //
+    func showHabitDetails(habit: Habit) -> some View
+    {
+        print("details func")
+        return VStack
+        {
+            VStack
+            {
+                Text("Details:")
+                .font(.title .bold())
+                Spacer()
+            }
+            HStack(alignment: VerticalAlignment.center)
+            {
+                
+                Text("\(habit.name)")
+                .modifier(HabitDetailsStyle())
+                Spacer()
+            }
+            
+            //let currentDate = Date()
+            
+            Text("Anticipated Reps/Day: \(habit.repetitionsDay)")
+            // Add more details based on your habit object
+        }
+        .padding()
+        .frame(width:420, height: 670)
+        .background(Color.gray.opacity(0.3))
+        .cornerRadius(10)
+        
+    }
+    
     
     // ========= FETCH HABITS ========= //
     func fetchHabits() async

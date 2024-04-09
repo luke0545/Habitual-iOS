@@ -21,6 +21,19 @@ struct HabitStyle: ViewModifier
     }
 }
 
+struct HabitDetailsStyle: ViewModifier
+{
+    let habitGreen = Color(red: 0.17, green: 0.33, blue: 0.2)
+    func body(content: Content) -> some View
+    {
+        content
+            .frame(width:270, height: 40)
+            .padding(15)
+            .background(habitGreen.opacity(0.7))
+            .cornerRadius(6)
+    }
+}
+
 struct HabitColor: ViewModifier 
 {
     enum ColorScheme: String 
