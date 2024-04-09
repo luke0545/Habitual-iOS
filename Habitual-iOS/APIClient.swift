@@ -166,6 +166,11 @@ func addHabit(habit: Habit, completion: @escaping (Result<Void, Error>) -> Void)
     }.resume()
 }
 
+func deleteHabit(habit: Habit)
+{
+    print("Delete Me")
+}
+
 
 // Error Handling
 enum HABError: Error

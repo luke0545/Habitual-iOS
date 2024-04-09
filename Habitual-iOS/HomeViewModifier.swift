@@ -27,10 +27,12 @@ struct HabitDetailsStyle: ViewModifier
     func body(content: Content) -> some View
     {
         content
-            .frame(width:270, height: 40)
+            .frame(width:270, height: 20)
             .padding(15)
             .background(habitGreen.opacity(0.7))
             .cornerRadius(6)
+            .foregroundColor(.white)
+            .font(.system(size: 22, weight: .bold))
     }
 }
 
@@ -48,6 +50,21 @@ struct HabitColor: ViewModifier
     {
         content
             .foregroundColor(colorScheme == .good ? .green : .red)
+    }
+}
+
+struct HabitDeleteStyle: ViewModifier
+{
+    let deleteRed = Color(red: 0.47, green: 0.13, blue: 0.2)
+    func body(content: Content) -> some View
+    {
+        content
+            .frame(width:70, height: 15)
+            .padding(15)
+            .background(deleteRed.opacity(0.7))
+            .cornerRadius(6)
+            .foregroundColor(.white)
+            .font(.system(size: 22, weight: .bold))
     }
 }
 

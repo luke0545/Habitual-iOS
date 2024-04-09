@@ -120,9 +120,11 @@ struct HomeView: View
     // State for 'Add Habit' popup
     @State private var showAddHabitPopup = false
     // State for Details popup
-    @State private var showDetails = false
+    @State private var showDetails = true
     // Store the selected Habit
     @State private var selectedHabit: Habit?
+    // Store the selected Habit Record count
+    
     // Initialize empty arrays
     @State private var habits: [Habit] = []
     @State private var records: [Record] = []
@@ -242,34 +244,151 @@ struct HomeView: View
         .frame(width:420, height: 670)
     }
     
+    func getTotalReps(habit: Habit) -> String
+    {
+        var totalReps = 0
+        for record in records
+        {
+            if(habit.habitId == record.habitId)
+            {
+                return record.updateNum
+                
+            }
+        }
+        
+        return "0"
+    }
+    
+    func calculateAvgReps(habit: Habit) -> Double
+    {
+        var repGoal = 0
+        var isDayGoal = true
+        // Is a string value at first
+        let totalReps = Double(getTotalReps(habit: habit))
+        
+        if(habit.repetitionsDay == 0)
+        {
+            repGoal = habit.repetitionsWeek
+            isDayGoal = false
+        }
+        if(habit.repetitionsWeek == 0)
+        {
+            repGoal = habit.repetitionsDay
+        }
+        //print("\(totalReps)")
+        
+        if let unwrappedTotalReps = totalReps
+        {
+            return unwrappedTotalReps / Double(repGoal)
+        } 
+        else
+        {
+            return totalReps!
+        }
+    }
+    
     // ============ SHOW HABIT DETAILS ============= //
     func showHabitDetails(habit: Habit) -> some View
     {
-        print("details func")
         return VStack
         {
+            // Details header
             VStack
             {
-                Text("Details:")
-                .font(.title .bold())
-                Spacer()
+                Text("Details")
+                    .font(.system(size: 35, weight: .bold))
+                //Spacer()
             }
-            HStack(alignment: VerticalAlignment.center)
+            // Display Habit name
+            VStack
             {
-                
+                //Spacer()
                 Text("\(habit.name)")
                 .modifier(HabitDetailsStyle())
-                Spacer()
+                
+            }
+            // STAT TITLES
+            HStack
+            {
+                HStack
+                {
+                    // Justify Left
+                    VStack(alignment: .leading)
+                    {
+                        Text("Date Added:")
+                            .font(.system(size: 20, weight: .bold))
+                            .padding(.vertical, 10)
+                        Text("Rep Goal:")
+                            .font(.system(size: 20, weight: .bold))
+                            .padding(.vertical, 10)
+                        Text("Avg Reps:")
+                            .font(.system(size: 20, weight: .bold))
+                            .padding(.vertical, 10)
+                        Text("Total Reps:")
+                            .font(.system(size: 20, weight: .bold))
+                            .padding(.vertical, 10)
+                        Text("Difficulty:")
+                            .font(.system(size: 20, weight: .bold))
+                            .padding(.vertical, 10)
+                        
+                        Spacer()
+                    }
+                    //Spacer()
+                }
+                // STAT VALUES
+                HStack
+                {
+                    // Justify Right
+                    VStack(alignment: .leading)
+                    {
+                        let currentDate = Date()
+                        let formattedDate = currentDate.formatted(date: .abbreviated, time: .omitted)
+                        Text("\(formattedDate)")
+                            .font(.system(size: 20, weight: .bold))
+                            .padding(.vertical, 10)
+                        Text("\(habit.repetitionsDay) per day")
+                            .font(.system(size: 20, weight: .bold))
+                            .padding(.vertical, 10)
+                        // limit to 2 decimal places
+                        Text("\(String(format: "%.2f", calculateAvgReps(habit: habit))) per day")
+                            .font(.system(size: 20, weight: .bold))
+                            .padding(.vertical, 10)
+                        Text("\(getTotalReps(habit: habit))")
+                            .font(.system(size: 20, weight: .bold))
+                            .padding(.vertical, 10)
+                        Text("\(habit.difficulty)")
+                            .font(.system(size: 20, weight: .bold))
+                            .padding(.vertical, 10)
+                        
+                        Spacer()
+                    }
+                    //Spacer()
+                }
             }
             
-            //let currentDate = Date()
-            
-            Text("Anticipated Reps/Day: \(habit.repetitionsDay)")
-            // Add more details based on your habit object
+            // Delete Button
+            HStack
+            {
+                Spacer()
+                Button(action:
+                {
+                    deleteHabit(habit: habit)
+                    print("Deleted")
+                })
+                {
+                    
+                    Text("Delete")
+                        .font(.system(size: 22, weight: .bold))
+                        .foregroundColor(.white)
+                }
+                .modifier(HabitDeleteStyle())
+                .offset(x: -30, y: +0)
+                
+            }
         }
-        .padding()
+        .padding(0)
         .frame(width:420, height: 670)
-        .background(Color.gray.opacity(0.3))
+        .background(Color.white)
         .cornerRadius(10)
         
     }
