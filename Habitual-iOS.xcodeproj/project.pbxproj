@@ -14,6 +14,8 @@
 		A333B4F12B65B5B400502BA5 /* Habit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A333B4F02B65B5B400502BA5 /* Habit.swift */; };
 		A333B4F32B69E97800502BA5 /* HomeViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = A333B4F22B69E97800502BA5 /* HomeViewModifier.swift */; };
 		A333B4F52B69FEF000502BA5 /* HabitName.swift in Sources */ = {isa = PBXBuildFile; fileRef = A333B4F42B69FEF000502BA5 /* HabitName.swift */; };
+		A37EDDA82BCB5AD000519F75 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37EDDA72BCB5AD000519F75 /* Login.swift */; };
+		A37EDDAC2BCB7D1B00519F75 /* Signup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37EDDAB2BCB7D1B00519F75 /* Signup.swift */; };
 		A38642802B65A3DA00B3F3FA /* Habitual_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A386427F2B65A3DA00B3F3FA /* Habitual_iOSApp.swift */; };
 		A38642822B65A3DA00B3F3FA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38642812B65A3DA00B3F3FA /* HomeView.swift */; };
 		A38642842B65A3DB00B3F3FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A38642832B65A3DB00B3F3FA /* Assets.xcassets */; };
@@ -48,6 +50,8 @@
 		A333B4F02B65B5B400502BA5 /* Habit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Habit.swift; path = Models/Habit.swift; sourceTree = "<group>"; };
 		A333B4F22B69E97800502BA5 /* HomeViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModifier.swift; sourceTree = "<group>"; };
 		A333B4F42B69FEF000502BA5 /* HabitName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitName.swift; sourceTree = "<group>"; };
+		A37EDDA72BCB5AD000519F75 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
+		A37EDDAB2BCB7D1B00519F75 /* Signup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signup.swift; sourceTree = "<group>"; };
 		A386427C2B65A3DA00B3F3FA /* Habitual-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Habitual-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A386427F2B65A3DA00B3F3FA /* Habitual_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Habitual_iOSApp.swift; sourceTree = "<group>"; };
 		A38642812B65A3DA00B3F3FA /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -119,6 +123,8 @@
 				A38642832B65A3DB00B3F3FA /* Assets.xcassets */,
 				A38642852B65A3DB00B3F3FA /* Preview Content */,
 				A3232FF42B774EE30038FE49 /* APIClient.swift */,
+				A37EDDA72BCB5AD000519F75 /* Login.swift */,
+				A37EDDAB2BCB7D1B00519F75 /* Signup.swift */,
 			);
 			path = "Habitual-iOS";
 			sourceTree = "<group>";
@@ -279,12 +285,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A333B4F52B69FEF000502BA5 /* HabitName.swift in Sources */,
+				A37EDDA82BCB5AD000519F75 /* Login.swift in Sources */,
 				A333B4F32B69E97800502BA5 /* HomeViewModifier.swift in Sources */,
 				A3232FF72B7759D50038FE49 /* Record.swift in Sources */,
 				A333B4F12B65B5B400502BA5 /* Habit.swift in Sources */,
 				A3232FF52B774EE30038FE49 /* APIClient.swift in Sources */,
 				A3232FF12B774DA40038FE49 /* NavigationSection.swift in Sources */,
 				A3232FF32B774DF10038FE49 /* ActivityView.swift in Sources */,
+				A37EDDAC2BCB7D1B00519F75 /* Signup.swift in Sources */,
 				A38642822B65A3DA00B3F3FA /* HomeView.swift in Sources */,
 				A38642802B65A3DA00B3F3FA /* Habitual_iOSApp.swift in Sources */,
 			);

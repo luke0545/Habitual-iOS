@@ -113,14 +113,44 @@ struct AddHabitPopupView: View
     }
 }
 
+struct ParentHomeView: View {
+
+  var body: some View {
+      VStack
+      {
+          NavigationView
+          {
+
+              NavigationSection(currentPage: "Home")
+
+          }
+          HomeView()
+      }
+      
+//    TabView {
+//      // Home view
+//      HomeView()
+//        .tabItem {
+//          Label("Home", systemImage: "house")
+//        }
+//
+//      // Activity view (replace with your ActivityView)
+//      ActivityView()
+//        .tabItem {
+//          Label("Activity", systemImage: "bell")
+//        }
+//    }
+  }
+}
+
 struct HomeView: View 
 {
     // State current page
-    @State private var currentPage: String = "Home"
+    @State public var currentPage: String = "Home"
     // State for 'Add Habit' popup
     @State private var showAddHabitPopup = false
     // State for Details popup
-    @State private var showDetails = true
+    @State private var showDetails = false
     // Store the selected Habit
     @State private var selectedHabit: Habit?
     // Store the selected Habit Record count
@@ -140,13 +170,7 @@ struct HomeView: View
     var body: some View
     {
         // Nav section
-        NavigationView 
-        {
-            ZStack
-            {
-                NavigationSection(currentPage: currentPage)
-            }
-        }
+        
         ZStack
         {
             VStack
@@ -212,6 +236,14 @@ struct HomeView: View
                             }
                         }
             }
+            .task
+            {
+                await fetchHabits()
+                await fetchRecords()
+            }
+            .padding(0)
+            .frame(width:420, height: 670)
+            
             // Add Habit button
             // Button to trigger the popup
             Button(action:
@@ -235,13 +267,7 @@ struct HomeView: View
             }
         }
         
-        .task
-        {
-            await fetchHabits()
-            await fetchRecords()
-        }
-        .padding(0)
-        .frame(width:420, height: 670)
+        
     }
     
     func getTotalReps(habit: Habit) -> String
@@ -451,5 +477,5 @@ struct HomeView: View
 }
 
 #Preview {
-    HomeView()
+    ParentHomeView()
 }

@@ -29,7 +29,7 @@ struct NavigationSection: View {
                     .foregroundColor(currentPage == "Home" ? Color.accentColor : .gray)
                     .padding(.horizontal, 40)
                     .fontWeight(.bold)
-
+                
                 Text("Activity")
                     .font(.body)
                     .foregroundColor(currentPage == "Activity" ? Color.accentColor : .gray)
@@ -42,5 +42,5 @@ struct NavigationSection: View {
 }
 
 #Preview {
-    HomeView()
+    ParentHomeView()
 }

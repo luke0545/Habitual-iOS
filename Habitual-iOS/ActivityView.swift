@@ -108,10 +108,9 @@ struct ActivityView: View
         // Nav section
         NavigationView
         {
-            ZStack
-            {
+
                 NavigationSection(currentPage: currentPage)
-            }
+
             
         }
         LineChartView()

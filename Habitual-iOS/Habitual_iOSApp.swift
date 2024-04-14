@@ -14,7 +14,8 @@ struct Habitual_iOSApp: App
     {
         WindowGroup 
         {
-            HomeView()
+            LoginView()
+            //ParentHomeView()
         }
     }
 }
