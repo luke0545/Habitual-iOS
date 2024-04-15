@@ -113,11 +113,13 @@ func updateHabitRecord(habit: Habit) async throws -> ()
 }
 
 // ADD HABIT //
-func addHabit(habit: Habit, completion: @escaping (Result<Void, Error>) -> Void) {
+func addHabit(habit: Habit, completion: @escaping (Result<Void, Error>) -> Void) 
+{
     // Generate current date time in ISO 8601 format
     let currentDateTimeISO = ISO8601DateFormatter().string(from: Date())
 
-    guard let url = URL(string: "http://localhost:3000/addhabit") else {
+    guard let url = URL(string: "http://localhost:3000/addhabit") else 
+    {
         completion(.failure(URLError(.badURL)))
         return
     }
@@ -166,9 +168,43 @@ func addHabit(habit: Habit, completion: @escaping (Result<Void, Error>) -> Void)
     }.resume()
 }
 
-func deleteHabit(habit: Habit)
+func deleteHabit(habit: Habit, completion: @escaping (Error?) -> Void) 
 {
-    print("Delete Me")
+    guard let url = URL(string: "http://localhost:3000/removehabit") else
+    {
+        completion(NSError(domain: "InvalidAPIURL", code: -1, userInfo: nil))
+        return
+    }
+    
+    var urlRequest = URLRequest(url: url)
+    urlRequest.httpMethod = "POST"
+    urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    
+    do {
+        let encoder = JSONEncoder()
+        encoder.keyEncodingStrategy = .convertToSnakeCase // Encode keys in snake_case
+        let jsonData = try encoder.encode(habit)
+        urlRequest.httpBody = jsonData
+      } catch {
+        completion(error)
+        return
+      }
+    
+    let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+        if let error = error {
+            completion(error)
+            return
+        }
+        
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            completion(NSError(domain: "APIError", code: -2, userInfo: nil))
+            return
+        }
+        
+        completion(nil)
+    }
+    
+    task.resume()
 }
 
 

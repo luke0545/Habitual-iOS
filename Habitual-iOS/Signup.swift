@@ -14,6 +14,9 @@ struct SignupView: View
     @State private var username: String = ""
     @State private var password: String = ""
     @State private var confirmPassword: String = ""
+    // Password error handling
+    @State private var showPasswordError = false
+    @State private var showConfirmError = false
 
     var body: some View
     {
@@ -30,57 +33,69 @@ struct SignupView: View
               }
               .padding(.top, 50)
 
-              // Username and password fields
-              VStack(spacing: 10)
-              {
-                  TextField("Create a username", text: $username)
-                      .padding()
-                      .background(Color.gray.opacity(0.2))
-                      .cornerRadius(5)
-                  SecureField("Choose a Password", text: $password)
-                      .padding()
-                      .background(Color.gray.opacity(0.2))
-                      .cornerRadius(5)
-                  if !isValidPassword($password.wrappedValue) 
-                  {
-                      Text("Password must contain at least one digit.")
-                      .font(.caption)
-                      .foregroundColor(.red)
-                  }
-                  SecureField("Confirm Password", text: $confirmPassword)
-                      .padding()
-                      .background(Color.gray.opacity(0.2))
-                      .cornerRadius(5)
-                  if !$password.wrappedValue.isEqual($confirmPassword.wrappedValue)
-                  {
-                      Text("Passwords do not match")
-                      .font(.caption)
-                      .foregroundColor(.red)
-                  }
-              }
-              .padding(30)
-
-              // Sign in button
-              HStack 
-            {
-                Spacer()
-                Button(action: 
-                {
-                  print("Signing in...")
-                    print("Username: ", $username)
-                    print("Password: ", $password)
-                })
-                {
-                  Text("Sign Up")
-                    .foregroundColor(.white)
+            // Username and password fields
+            VStack(spacing: 10) {
+                TextField("Create a username", text: $username)
                     .padding()
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(5)
+
+                SecureField("Choose a Password", text: $password)
+                    .padding()
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(5)
+
+                // Error message for password validity (hidden initially)
+                if !isValidPassword($password.wrappedValue) && showPasswordError {
+                    Text("Password must contain at least one digit.")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                }
+
+                SecureField("Confirm Password", text: $confirmPassword)
+                    .padding()
+                    .background(Color.gray.opacity(0.2))
+                    .cornerRadius(5)
+
+                // Error message for password match (hidden initially)
+                if !$password.wrappedValue.isEqual($confirmPassword.wrappedValue) && showConfirmError {
+                    Text("Passwords do not match")
+                        .font(.caption)
+                        .foregroundColor(.red)
+                }
+            }
+            .padding(30)
+
+            // Sign in button
+            HStack {
+                Spacer()
+                Button(action: {
+                    showPasswordError = !isValidPassword($password.wrappedValue)
+                    showConfirmError = !$password.wrappedValue.isEqual($confirmPassword.wrappedValue)
+                    // Handle Sign on button click
+                    if (!showPasswordError && !showConfirmError)
+                    {
+                        print("Signing in...")
+                        print("Username: ", $username.wrappedValue)
+                        print("Password: ", $password.wrappedValue)
+                    }
+                    else
+                    {
+                        print("Not signed in. Errors in login info...")
+                        print("Username: ", $username.wrappedValue)
+                        print("Password: ", $password.wrappedValue)
+                    }
+                }) {
+                    Text("Sign Up")
+                        .foregroundColor(.white)
+                        .padding()
                 }
                 .frame(width: 200)
                 .background(Color.gray)
                 .cornerRadius(5)
                 Spacer()
-              }
-              .padding(.top, 5)
+            }
+            .padding(.top, 5)
 
               // Sign up link
               VStack(alignment: .leading)

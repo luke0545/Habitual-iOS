@@ -256,15 +256,11 @@ struct HomeView: View
             }
             .padding()
             .offset(x: +140, y: -395) // Adjust the position of the button
+            .popover(isPresented: $showAddHabitPopup)
+                    {
+                        AddHabitPopupView(showPopup: $showAddHabitPopup)
 
-            // Custom popup view
-            if showAddHabitPopup
-            {
-                AddHabitPopupView(showPopup: $showAddHabitPopup)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.black.opacity(0.5))
-                    .edgesIgnoringSafeArea(.all)
-            }
+                    }
         }
         
         
@@ -283,6 +279,19 @@ struct HomeView: View
         }
         
         return "0"
+    }
+    func getHabitById(id: Int) -> Habit
+    {
+        var returnHab = Habit(habitId: 2, name: "habitName", type: "good", difficulty: 3, userId: 1, repetitionsDay: 0, repetitionsWeek: 3)
+        for habit in habits
+        {
+            if(habit.habitId == id)
+            {
+                returnHab = habit
+                
+            }
+        }
+        return returnHab
     }
     
     func calculateAvgReps(habit: Habit) -> Double
@@ -328,7 +337,6 @@ struct HomeView: View
             // Display Habit name
             VStack
             {
-                //Spacer()
                 Text("\(habit.name)")
                 .modifier(HabitDetailsStyle())
                 
@@ -388,7 +396,6 @@ struct HomeView: View
                         
                         Spacer()
                     }
-                    //Spacer()
                 }
             }
             
@@ -399,6 +406,17 @@ struct HomeView: View
                 Button(action:
                 {
                     deleteHabit(habit: habit)
+                    {
+                        error in
+                        if let error = error 
+                        {
+                            print("Error removing habit: \(error)")
+                        }
+                        else
+                        {
+                            print("Habit successfully removed!")
+                        }
+                    }
                     print("Deleted")
                 })
                 {
