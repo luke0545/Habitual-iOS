@@ -12,11 +12,11 @@ import Charts
 struct LineChartView: View 
 {
     // Repetition data (hardcoded integer array to test)
-    let habit1Reps: [Int] = [8, 3, 6, 7, 7, 5, 9] // Habit 1
+    let habit1Reps: [Int] = [1, 3, 6, 7, 7, 8, 9] // Habit 1
 
-    var body: some View 
+    var body: some View
     {
-        Chart 
+        Chart
         {
             // Create a line chart with multiple lines
             LineMark(
@@ -47,8 +47,11 @@ struct LineChartView: View
                 x: .value("Day", 6),
                 y: .value("num", habit1Reps[6])
             )
+            //.stroke(.green, lineWidth: 2)
+            // Customize chart labels
+            
         }
-        
+        //.chartXScale(domain: ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"])
     }
 }
 
@@ -59,7 +62,7 @@ struct ContentView: View {
             LineChartView()
                 .navigationBarTitle("Habit Repetitions")
         }
-        .frame(height: 300)
+        .frame(height: 400)
     }
     
 }
@@ -101,45 +104,47 @@ struct ActivityView: View
         var recordsBinding: Binding<Array<Record>> {
             Binding(get: { self.records }, set: { self.records = $0 })
         }
-//    @State private var singleHabit: Habit = Habit(id: 1, habitId: 2, name: "Workout", type: "Good", difficulty: 4, userId: 3, repetitionsDay: 1, repetitionsWeek: 4)
     
     
-    var body: some View {
+    var body: some View 
+    {
         // Nav section
         NavigationView
         {
-
-                NavigationSection(currentPage: currentPage)
-
-            
+            NavigationSection(currentPage: currentPage)
         }
-        LineChartView()
         
-        VStack 
+        LineChartView()
+            .frame(height: 340)
+        // Split habits list into two sub-lists
+        let numHabits = habits.count
+        var halfHabits = numHabits / 2
+        let habitsLeft = Array(habits[0..<halfHabits])
+        let habitsRight = Array(habits[halfHabits..<numHabits])
+
+        // Spacing between VStacks
+        HStack(spacing: 0)
         {
-            
-            // Display habits[]
-            List(habits)
+
+            VStack 
             {
-                habitName in
-                HStack
-                {
-                    SelHabButton(action:
-                    {
-                        Task
-                        {
-                            print("hello")
-                        }
-                    }, recordsBinding: recordsBinding)
-                    
-                    Text(habitName.name)
-                       .modifier(HabitStyle())
-                       .offset(x: -0.0) // Shift 56 points to the left
-                       // .modifier(HabitColor(colorScheme: .init(rawValue: habit.type) ?? .bad)) // Apply habit color
-                }
-                
+                  ForEach(habitsLeft)
+                  { habit in
+                        Text(habit.name)
+                        .modifier(HabitActivityStyle())
+                        .frame(maxWidth: .infinity)
+                  }
             }
-            
+
+            VStack 
+            {
+                  ForEach(habitsRight)
+                  { habit in
+                        Text(habit.name)
+                          .modifier(HabitActivityStyle())
+                          .frame(maxWidth: .infinity)
+                  }
+            }
         }
         .task
         {
@@ -147,9 +152,7 @@ struct ActivityView: View
             await fetchRecords()
         }
         .padding(0)
-        .frame(width:420, height: 470)
-        
-        
+        .frame(width: .infinity, height: .infinity)
     }
     
     // Line chart

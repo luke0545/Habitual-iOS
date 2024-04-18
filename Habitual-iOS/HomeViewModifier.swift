@@ -18,6 +18,23 @@ struct HabitStyle: ViewModifier
             .padding(15)
             .background(habitGreen.opacity(0.7))
             .cornerRadius(6)
+            .font(.system(size: 22, weight: .bold))
+            .foregroundColor(.white)
+    }
+}
+
+struct HabitActivityStyle: ViewModifier
+{
+    let habitGreen = Color(red: 0.17, green: 0.33, blue: 0.2)
+    func body(content: Content) -> some View
+    {
+        content
+            .frame(width:150, height: 40)
+            .padding(15)
+            .background(habitGreen.opacity(0.7))
+            .cornerRadius(6)
+            .font(.system(size: 22, weight: .bold))
+            .foregroundColor(.white)
     }
 }
 

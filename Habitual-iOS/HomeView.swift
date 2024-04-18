@@ -207,8 +207,7 @@ struct HomeView: View
                             showDetails = true
                         }
                         .modifier(HabitStyle())
-                        .font(.system(size: 22, weight: .bold))
-                        .foregroundColor(.white)
+                        
                         
                         // .modifier(HabitColor(colorScheme: .init(rawValue: habit.type) ?? .bad)) // Apply habit color
                         
