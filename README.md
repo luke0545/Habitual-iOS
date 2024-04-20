@@ -6,6 +6,8 @@ This design document includes an overall solution of how I plan to develop the a
 <h4>Logical Solution Design:</h4>
 <img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/6b858002-7ddf-46f9-ac20-597f7ac316fb" width=70% height=70%>
 
+<h4>Tech Stack</h4>
+The app was developed in XCode and coded in Swift. The database is hosted in AWS as an RDS service with MySQL used as the database schema. Lastly, the API was written in Node.JS Express and Postman was used to test it.
 
 <h4>Physical Solution Design:</h4>
 
@@ -47,7 +49,7 @@ The ‘Activity Page’ gives users a visual representation of their progress fo
 
 
 <h4>Non-Functional Requirement (NFR):</h4>
-An NFR for the app will restrict the iPhones that are supported to iPhones 12-15 with max counterparts and iOS 17+. The iOS requirement was chosen because of the possibility of adding a widget later on, which is only supported on iOS 17+. The design supports the different phone sizes since the choice of using Swift UI allows for an accurately simulated depiction of different phone models and sizes.
+An NFR for the app will restrict the iPhones that are supported to iPhones 12-15 max and iOS 17+. The iOS requirement was chosen because of the possibility of adding a widget later on, which is only supported on iOS 17+.
 
 <h4>Operational Support Design:</h4>
 Logging will be supported through the API and will log errors, stack traces and important events including user account activity.
