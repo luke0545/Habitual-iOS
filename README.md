@@ -38,7 +38,7 @@ The logical flow of the app as the user would see it. Green nodes indicate where
 The sitemap shows the technical flow of the app at a high level.
 
 <h3>UI Wireframes:</h3>
-<img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/06bdb89c-30b4-4bd6-b2f5-5e14cb7342c8" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/06bdb89c-30b4-4bd6-b2f5-5e14cb7342c8" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/b773db2e-75b3-490e-9fd8-175392e840c9" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/64f64e22-16ac-4c3a-ba61-e1da83b0894f" width=25% height=25%>
+<img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/6d56de55-04f1-4987-b2ef-f4e15c2fd364" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/06bdb89c-30b4-4bd6-b2f5-5e14cb7342c8" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/b773db2e-75b3-490e-9fd8-175392e840c9" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/64f64e22-16ac-4c3a-ba61-e1da83b0894f" width=25% height=25%>
 
 Users will tap the ‘+’ icon to the left of each habit once they’ve completed it. The results on the right side will add up accordingly to see a brief overview of their status. When a habit name is tapped on, the square becomes darkened and triggers the ‘Details View’ for that habit as seen below.
 
