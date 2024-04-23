@@ -9,90 +9,10 @@ import Foundation
 import SwiftUI
 import Charts
 
-struct LineChartView: View 
-{
-    // Repetition data (hardcoded integer array to test)
-    let habit1Reps: [Int] = [1, 3, 6, 7, 7, 8, 9] // Habit 1
-
-    var body: some View
-    {
-        Chart
-        {
-            // Create a line chart with multiple lines
-            LineMark(
-                x: .value("Day", 0),
-                y: .value("num", habit1Reps[0])
-            )
-            LineMark(
-                x: .value("Day", 1),
-                y: .value("num", habit1Reps[1])
-            )
-            LineMark(
-                x: .value("Day", 2),
-                y: .value("num", habit1Reps[2])
-            )
-            LineMark(
-                x: .value("Day", 3),
-                y: .value("num", habit1Reps[3])
-            )
-            LineMark(
-                x: .value("Day", 4),
-                y: .value("num", habit1Reps[4])
-            )
-            LineMark(
-                x: .value("Day", 5),
-                y: .value("num", habit1Reps[5])
-            )
-            LineMark(
-                x: .value("Day", 6),
-                y: .value("num", habit1Reps[6])
-            )
-            //.stroke(.green, lineWidth: 2)
-            // Customize chart labels
-            
-        }
-        //.chartXScale(domain: ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"])
-    }
-}
-
-// Usage
-struct ContentView: View {
-    var body: some View {
-        NavigationView {
-            LineChartView()
-                .navigationBarTitle("Habit Repetitions")
-        }
-        .frame(height: 400)
-    }
-    
-}
-
-
-// ============ SELECT HABIT TO VIEW CHART ============= //
-struct SelHabButton: View
-{
-    let action: () -> Void
-    let recordsBinding: Binding<Array<Record>>
-    
-    var body: some View
-    {
-        Button(action: action)
-        {
-            Image(systemName: "plus")
-                .font(.system(size: 30, weight: .bold))
-                .foregroundColor(.white)
-                .padding(5)
-                .background(Color.gray.cornerRadius(10))
-                .modifier(HabitStyle())
-        }
-        .buttonStyle(.plain)
-    }
-}
-
-
-
 struct ActivityView: View 
 {
+    //@StateObject private var habitData = HabitData()
+    @State public var habit1Reps: [Int] = [1, 10, 2, 7, 7, 8, 9]
     // State current page
     @State private var currentPage: String = "Activity"
     
@@ -113,39 +33,93 @@ struct ActivityView: View
         {
             NavigationSection(currentPage: currentPage)
         }
+        .frame(width: .infinity, height: 90)
+        var xValues = [1, 2, 3, 4, 5, 6, 7]
+        Chart
+        {
+            // Create a line chart
+            LineMark(
+                x: .value("Day", 1),
+                y: .value("num", habit1Reps[0])
+            )
+            LineMark(
+                x: .value("Day", 2),
+                y: .value("num", habit1Reps[1])
+            )
+            LineMark(
+                x: .value("Day", 3),
+                y: .value("num", habit1Reps[2])
+            )
+            LineMark(
+                x: .value("Day", 4),
+                y: .value("num", habit1Reps[3])
+            )
+            LineMark(
+                x: .value("Day", 5),
+                y: .value("num", habit1Reps[4])
+            )
+            LineMark(
+                x: .value("Day", 6),
+                y: .value("num", habit1Reps[5])
+            )
+            LineMark(
+                x: .value("Day", 7),
+                y: .value("num", habit1Reps[6])
+            )
+            
+        }
+        .frame(height: 300)
+        .chartXScale(domain: ClosedRange(uncheckedBounds: (lower: 1.0, upper: 7.0)))
+        .chartXAxis {
+            AxisMarks(values: xValues)
+        }
         
-        LineChartView()
-            .frame(height: 340)
+        Spacer()
+        //Text(records[0].updateNum)
         // Split habits list into two sub-lists
         let numHabits = habits.count
-        var halfHabits = numHabits / 2
+        let halfHabits = numHabits / 2
         let habitsLeft = Array(habits[0..<halfHabits])
         let habitsRight = Array(habits[halfHabits..<numHabits])
-
+        Spacer()
         // Spacing between VStacks
-        HStack(spacing: 0)
+        ScrollView
         {
-
-            VStack 
+            HStack(spacing: 0)
             {
-                  ForEach(habitsLeft)
-                  { habit in
-                        Text(habit.name)
-                        .modifier(HabitActivityStyle())
-                        .frame(maxWidth: .infinity)
-                  }
-            }
 
-            VStack 
-            {
-                  ForEach(habitsRight)
-                  { habit in
-                        Text(habit.name)
-                          .modifier(HabitActivityStyle())
-                          .frame(maxWidth: .infinity)
-                  }
+                VStack
+                {
+                      ForEach(habitsLeft)
+                      { habit in
+                          Button(action:
+                          {
+                              lineChartUpdate(habit: habit)
+                          }) {
+                              Text(habit.name)
+                                  .modifier(HabitActivityStyle())
+                                  .frame(maxWidth: .infinity)
+                          }
+                      }
+                }
+
+                VStack
+                {
+                      ForEach(habitsRight)
+                      { habit in
+                          Button(action:
+                          {
+                              lineChartUpdate(habit: habit)
+                          }) {
+                              Text(habit.name)
+                                  .modifier(HabitActivityStyle())
+                                  .frame(maxWidth: .infinity)
+                          }
+                      }
+                }
             }
         }
+        
         .task
         {
             await fetchHabits()
@@ -155,8 +129,39 @@ struct ActivityView: View
         .frame(width: .infinity, height: .infinity)
     }
     
-    // Line chart
-    
+    // ============ LINE CHART UPDATE ============= //
+    func lineChartUpdate(habit: Habit) -> Void
+    {
+        var tmpRecordsList: [Int] = []
+        // list repetitions
+        // Iterate through records
+            for record in records 
+            {
+                if habit.habitId == record.habitId
+                {
+                    if let updateNumInt = Int(record.updateNum)
+                    {
+                        // Successfully converted to an integer, add it to tmpRecordsList
+                        if(tmpRecordsList.count < 7)
+                        {
+                            tmpRecordsList.append(updateNumInt)
+                        }
+                    }
+                    else
+                    {
+                        // Handle the case where conversion fails (e.g., non-numeric string)
+                        print("Error: Unable to convert \(record.updateNum) to an integer.")
+                    }
+                }
+            }
+        var habit2Reps: [Int] = Array(repeating: 0, count: 7)
+        for i in 0..<tmpRecordsList.count {
+                habit2Reps[i] = tmpRecordsList[i]
+            }
+
+        print(habit2Reps)
+        habit1Reps = habit2Reps
+    }
 
 
     // ========= FETCH ALL HABITS ========= //
@@ -184,15 +189,10 @@ struct ActivityView: View
             // Get records from server
             let rawRecordsList = try await getRecords()
 
-                    // Filter and keep only one record (the most recent) per habit_id
-                    let filteredRecords = Dictionary(grouping: rawRecordsList, by: \.habitId)
-                         .values
-                         .map { $0.max(by: { $0.updateNum < $1.updateNum })! }
-
                     // Update the state array on the main thread
                     DispatchQueue.main.async
                     {
-                        self.records = filteredRecords
+                        self.records = rawRecordsList
                     }
         } catch
         {

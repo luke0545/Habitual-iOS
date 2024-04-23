@@ -2,7 +2,7 @@
 //  APIClient.swift
 //  Habitual-iOS
 //
-//  Created by Luke on 2/9/24.
+//  Created by Luke on 1/19/24.
 //
 
 import Foundation
@@ -128,16 +128,17 @@ func addHabit(habit: Habit, completion: @escaping (Result<Void, Error>) -> Void)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-    // Construct JSON body with currentDateTimeISO
-    let body: [String: Any] = [
-        "name": habit.name,
-        "type": habit.type,
-        "Difficulty": habit.difficulty,
-        "Date_added": "0000-00-00 00:00:00",
-        "user_id": habit.userId,
-        "repetitions_day": habit.repetitionsDay,
-        "repetitions_week": habit.repetitionsWeek
-    ]
+    // Construct JSON body with default DateTimeISO
+    let body: [String: Any] = 
+        [
+            "name": habit.name,
+            "type": habit.type,
+            "Difficulty": habit.difficulty,
+            "Date_added": "0000-00-00 00:00:00",
+            "user_id": habit.userId,
+            "repetitions_day": habit.repetitionsDay,
+            "repetitions_week": habit.repetitionsWeek
+        ]
 
     do 
     {
@@ -151,7 +152,8 @@ func addHabit(habit: Habit, completion: @escaping (Result<Void, Error>) -> Void)
     }
 
     URLSession.shared.dataTask(with: request) { data, response, error in
-        if let error = error {
+        if let error = error 
+        {
             completion(.failure(error))
             return
         }
@@ -180,12 +182,14 @@ func deleteHabit(habit: Habit, completion: @escaping (Error?) -> Void)
     urlRequest.httpMethod = "POST"
     urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
     
-    do {
+    do 
+    {
         let encoder = JSONEncoder()
         encoder.keyEncodingStrategy = .convertToSnakeCase // Encode keys in snake_case
         let jsonData = try encoder.encode(habit)
         urlRequest.httpBody = jsonData
-      } catch {
+    } catch
+      {
         completion(error)
         return
       }
@@ -196,7 +200,8 @@ func deleteHabit(habit: Habit, completion: @escaping (Error?) -> Void)
             return
         }
         
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else 
+        {
             completion(NSError(domain: "APIError", code: -2, userInfo: nil))
             return
         }

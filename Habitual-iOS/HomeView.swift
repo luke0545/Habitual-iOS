@@ -127,19 +127,6 @@ struct ParentHomeView: View {
           HomeView()
       }
       
-//    TabView {
-//      // Home view
-//      HomeView()
-//        .tabItem {
-//          Label("Home", systemImage: "house")
-//        }
-//
-//      // Activity view (replace with your ActivityView)
-//      ActivityView()
-//        .tabItem {
-//          Label("Activity", systemImage: "bell")
-//        }
-//    }
   }
 }
 
@@ -293,7 +280,7 @@ struct HomeView: View
         return returnHab
     }
     
-    func calculateAvgReps(habit: Habit) -> Double
+    func getAvgReps(habit: Habit) -> Double
     {
         var repGoal = 0
         var isDayGoal = true
@@ -317,7 +304,7 @@ struct HomeView: View
         } 
         else
         {
-            return totalReps!
+            return 1
         }
     }
     
@@ -374,7 +361,8 @@ struct HomeView: View
                     // Justify Right
                     VStack(alignment: .leading)
                     {
-                        let currentDate = Date()
+                        let currentDate = Date(timeIntervalSinceReferenceDate: 8501 * 24 * 60 * 60)
+                        //let currentDate = Date()
                         let formattedDate = currentDate.formatted(date: .abbreviated, time: .omitted)
                         Text("\(formattedDate)")
                             .font(.system(size: 20, weight: .bold))
@@ -383,7 +371,7 @@ struct HomeView: View
                             .font(.system(size: 20, weight: .bold))
                             .padding(.vertical, 10)
                         // limit to 2 decimal places
-                        Text("\(String(format: "%.2f", calculateAvgReps(habit: habit))) per day")
+                        Text("\(String(format: "%.2f", getAvgReps(habit: habit))) per day")
                             .font(.system(size: 20, weight: .bold))
                             .padding(.vertical, 10)
                         Text("\(getTotalReps(habit: habit))")
@@ -453,7 +441,7 @@ struct HomeView: View
             print("Error fetching habits: \(error)")
         }
     }
-    // ========= FETCH RECORDS ========= //
+    // ========= FETCH FILTERED RECORDS ========= //
     func fetchRecords() async
     {
         do
