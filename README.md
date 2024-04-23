@@ -3,9 +3,15 @@
 <h3>WIP - Design Documentation Below</h3>
 <h4>Design Introduction</h4>
 This design document includes an overall solution of how I plan to develop the app. This includes UI mockups, and the process flow of the app shown in the flowchart below. It is designed using MVC architecture because I believe it makes the most sense for the complexity of the app. Choosing this architecture leaves less room for error because of fewer moving parts and because this is my first experience building a fully functional app in Swift, room for error should be kept to a minimum.
+
+<h4>Tech Stack</h4>
+The app was developed in XCode and coded in Swift. The database is hosted in AWS as an RDS service with MySQL used as the database schema. The API was written in Node.JS Express and Postman was used to test it.
+
+<h4>Tech learned during project</h4>
+Through planning and development, I used industry tools like XCode, Jira and Postman. I haven't coded in Swift up to the point of starting this project so it was good experience getting hands-on with iOS development and learning a new language.
+
 <h4>Logical Solution Design:</h4>
 <img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/6b858002-7ddf-46f9-ac20-597f7ac316fb" width=70% height=70%>
-
 
 <h4>Physical Solution Design:</h4>
 
@@ -32,7 +38,7 @@ The logical flow of the app as the user would see it. Green nodes indicate where
 The sitemap shows the technical flow of the app at a high level.
 
 <h3>UI Wireframes:</h3>
-<img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/06bdb89c-30b4-4bd6-b2f5-5e14cb7342c8" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/06bdb89c-30b4-4bd6-b2f5-5e14cb7342c8" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/b773db2e-75b3-490e-9fd8-175392e840c9" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/64f64e22-16ac-4c3a-ba61-e1da83b0894f" width=25% height=25%>
+<img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/6d56de55-04f1-4987-b2ef-f4e15c2fd364" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/06bdb89c-30b4-4bd6-b2f5-5e14cb7342c8" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/b773db2e-75b3-490e-9fd8-175392e840c9" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/64f64e22-16ac-4c3a-ba61-e1da83b0894f" width=25% height=25%>
 
 Users will tap the ‘+’ icon to the left of each habit once they’ve completed it. The results on the right side will add up accordingly to see a brief overview of their status. When a habit name is tapped on, the square becomes darkened and triggers the ‘Details View’ for that habit as seen below.
 
@@ -45,9 +51,17 @@ Statistics for each habit are compiled through a business class and displayed on
 The ‘Add Habit Form’ page allows users to add new habits and includes all data needed to add a new habit row to the database.
 The ‘Activity Page’ gives users a visual representation of their progress for a single or multiple habits over a 7-day period. Tapping on the greyed-out habits will show/hide their corresponding-colored line on the chart at the top.
 
+<h4>Project Risks</h4>
+The core risk during the planning of this project was that I had no experience in Swift or mobile development in general at that point. I made sure to research documentation and know that the features I proposed in my planning were all feasible with the tech that I planned to use.
 
 <h4>Non-Functional Requirement (NFR):</h4>
-An NFR for the app will restrict the iPhones that are supported to iPhones 12-15 with max counterparts and iOS 17+. The iOS requirement was chosen because of the possibility of adding a widget later on, which is only supported on iOS 17+. The design supports the different phone sizes since the choice of using Swift UI allows for an accurately simulated depiction of different phone models and sizes.
+An NFR for the app will restrict the iPhones that are supported to iPhones 12-15 max and iOS 17+. The iOS requirement was chosen because of the possibility of adding a widget later on, which is only supported on iOS 17+.
 
 <h4>Operational Support Design:</h4>
 Logging will be supported through the API and will log errors, stack traces and important events including user account activity.
+
+<h4>Development and Current State</h4>
+There are a few features I would still like to flesh-out and continue to develop that are not complete at this point:
+1. Navigation still needs to be fully implemented
+2. Activity View doesn't currently calculate repetition differences from week to week
+3. API currently not hosted
