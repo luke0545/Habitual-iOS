@@ -62,6 +62,6 @@ Logging will be supported through the API and will log errors, stack traces and 
 
 <h4>Development and Current State</h4>
 There are a few features I would still like to flesh-out and continue to develop that are not complete at this point:
-1. Navigation still needs to be fully implemented
-2. Activity View doesn't currently calculate repetition differences from week to week
-3. API currently not hosted
+1. Navigation still needs to be fully implemented. 
+2. Activity View doesn't currently calculate repetition differences from week to week. 
+3. Certain features on the home page require a refresh to show results.
