@@ -1,6 +1,6 @@
 <p style="text-align: center;"><b>Habitual is a project focused in the field of productivity, allowing users add habits they want to improve and show them real-time progress and basic statistics for each habit as they progress.</b></p>
 
-<h3>WIP - Design Documentation Below</h3>
+<h3>Design Documentation Below</h3>
 <h4>Design Introduction</h4>
 This design document includes an overall solution of how I plan to develop the app. This includes UI mockups, and the process flow of the app shown in the flowchart below. It is designed using MVC architecture because I believe it makes the most sense for the complexity of the app. Choosing this architecture leaves less room for error because of fewer moving parts and because this is my first experience building a fully functional app in Swift, room for error should be kept to a minimum.
 
