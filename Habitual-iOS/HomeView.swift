@@ -36,7 +36,7 @@ struct AddHabitPopupView: View
     @State private var difficulty = 3
     @State private var habitType = true // Default to "Good"
     @State private var habitGood = ""
-    // check whether plus button is active
+    // check whether plus (add) button is active
     @Binding var showPopup: Bool
 
     var body: some View 
@@ -47,7 +47,8 @@ struct AddHabitPopupView: View
             {
                 Button(action: 
                 {
-                    showPopup.toggle() // Close the popup
+                    // Close popup
+                    showPopup.toggle()
                 }) 
                     {
                         Text("Close")
@@ -58,9 +59,11 @@ struct AddHabitPopupView: View
             }
 
             // Add habit form input fields
-            NavigationView {
-                        Form {
-                            Section(header: Text("Habit Details")) 
+            NavigationView 
+            {
+                        Form
+                        {
+                            Section(header: Text("Habit Details"))
                             {
                                 TextField("Enter a habit", text: $habitName)
                                 Stepper("Anticipated reps per week: \(repetitionsPerWeek)", value: $repetitionsPerWeek, in: 1...14)
@@ -113,6 +116,7 @@ struct AddHabitPopupView: View
     }
 }
 
+// combining navigation at the top with the Home page below
 struct ParentHomeView: View {
 
   var body: some View {
@@ -120,13 +124,10 @@ struct ParentHomeView: View {
       {
           NavigationView
           {
-
               NavigationSection(currentPage: "Home")
-
           }
           HomeView()
       }
-      
   }
 }
 
@@ -151,29 +152,26 @@ struct HomeView: View
         {
             Binding(get: { self.records }, set: { self.records = $0 })
         }
-    // @State private var singleHabit: Habit = Habit(id: 1, habitId: 2, name: "Workout", type: "Good", difficulty: 4, userId: 3, repetitionsDay: 1, repetitionsWeek: 4)
     
     // ============ HABIT LIST VIEW ============= //
     var body: some View
     {
-        // Nav section
-        
         ZStack
         {
             VStack
             {
-                // Title the repetition count
+                // Title the repetition count "Total"
                 HStack
                 {
                     Spacer()
                     
                     Text("Total")
                         .padding(.horizontal, 80)
-                    
                 }
                 
                 List(habits)
-                { habit in
+                { 
+                    habit in
                     // for each habit in the array, create HStack to populate each row
                     HStack
                     {
@@ -187,16 +185,13 @@ struct HomeView: View
                             }
                         }, recordsBinding: recordsBinding)
                         
-                        // HABIT NAME BUTTON CLICK
+                        // Habit name button click (to show details popup)
                         Button(habit.name)
                         {
                             selectedHabit = habit
                             showDetails = true
                         }
                         .modifier(HabitStyle())
-                        
-                        
-                        // .modifier(HabitColor(colorScheme: .init(rawValue: habit.type) ?? .bad)) // Apply habit color
                         
                         // list repetitions
                         ForEach(records)
@@ -215,12 +210,12 @@ struct HomeView: View
                     }
                 }
                 .popover(isPresented: $showDetails) 
-                        {
-                            if let selectedHabit = selectedHabit
-                            {
-                                showHabitDetails(habit: selectedHabit)
-                            }
-                        }
+                {
+                    if let selectedHabit = selectedHabit
+                    {
+                        showHabitDetails(habit: selectedHabit)
+                    }
+                }
             }
             .task
             {
@@ -230,28 +225,26 @@ struct HomeView: View
             .padding(0)
             .frame(width:420, height: 670)
             
-            // Add Habit button
-            // Button to trigger the popup
+            // Button to trigger the 'Add Habit' popup
             Button(action:
             {
                 showAddHabitPopup.toggle()
-            }) {
+            }) 
+            {
                 Image(systemName: "plus")
                     .font(.system(size: 40, weight: .bold))
                     .foregroundColor(.black)
             }
             .padding()
-            .offset(x: +140, y: -395) // Adjust the position of the button
+            // Adjust the position of the button to be top right of the page
+            .offset(x: +140, y: -395)
             .popover(isPresented: $showAddHabitPopup)
-                    {
-                        AddHabitPopupView(showPopup: $showAddHabitPopup)
-
-                    }
+            {
+                AddHabitPopupView(showPopup: $showAddHabitPopup)
+            }
         }
-        
-        
     }
-    
+    // Get total repetitions of any habit
     func getTotalReps(habit: Habit) -> String
     {
         var totalReps = 0
@@ -266,6 +259,7 @@ struct HomeView: View
         
         return "0"
     }
+    // returns habit from id Int parameter
     func getHabitById(id: Int) -> Habit
     {
         var returnHab = Habit(habitId: 2, name: "habitName", type: "good", difficulty: 3, userId: 1, repetitionsDay: 0, repetitionsWeek: 3)
@@ -274,12 +268,11 @@ struct HomeView: View
             if(habit.habitId == id)
             {
                 returnHab = habit
-                
             }
         }
         return returnHab
     }
-    
+    // gets average reps
     func getAvgReps(habit: Habit) -> Double
     {
         var repGoal = 0
@@ -318,7 +311,6 @@ struct HomeView: View
             {
                 Text("Details")
                     .font(.system(size: 35, weight: .bold))
-                //Spacer()
             }
             // Display Habit name
             VStack
@@ -353,7 +345,6 @@ struct HomeView: View
                         
                         Spacer()
                     }
-                    //Spacer()
                 }
                 // STAT VALUES
                 HStack
@@ -361,8 +352,8 @@ struct HomeView: View
                     // Justify Right
                     VStack(alignment: .leading)
                     {
+                        // Using April 10, 2024 as placeholder date
                         let currentDate = Date(timeIntervalSinceReferenceDate: 8501 * 24 * 60 * 60)
-                        //let currentDate = Date()
                         let formattedDate = currentDate.formatted(date: .abbreviated, time: .omitted)
                         Text("\(formattedDate)")
                             .font(.system(size: 20, weight: .bold))
@@ -392,6 +383,7 @@ struct HomeView: View
                 Spacer()
                 Button(action:
                 {
+                    // Call API Client method
                     deleteHabit(habit: habit)
                     {
                         error in
@@ -404,24 +396,22 @@ struct HomeView: View
                             print("Habit successfully removed!")
                         }
                     }
+                    // console log
                     print("Deleted")
                 })
                 {
-                    
                     Text("Delete")
                         .font(.system(size: 22, weight: .bold))
                         .foregroundColor(.white)
                 }
                 .modifier(HabitDeleteStyle())
                 .offset(x: -30, y: +0)
-                
             }
         }
         .padding(0)
         .frame(width:420, height: 670)
         .background(Color.white)
         .cornerRadius(10)
-        
     }
     
     
@@ -431,12 +421,14 @@ struct HomeView: View
         do
         {
             let habitsList = try await getHabits()
+            
             // Update state on the main thread for consistent UI updates
             DispatchQueue.main.async
             {
                 self.habits = habitsList
             }
-        } catch
+        } 
+        catch
         {
             print("Error fetching habits: \(error)")
         }
@@ -449,36 +441,23 @@ struct HomeView: View
             // Get records from server
             let rawRecordsList = try await getRecords()
 
-                    // Filter and keep only one record (the most recent) per habit_id
-                    let filteredRecords = Dictionary(grouping: rawRecordsList, by: \.habitId)
-                         .values
-                         .map { $0.max(by: { $0.updateNum < $1.updateNum })! }
+            // Filter and keep only one record (the most recent) per habit_id
+            let filteredRecords = Dictionary(grouping: rawRecordsList, by: \.habitId)
+                 .values
+                 .map { $0.max(by: { $0.updateNum < $1.updateNum })! }
 
-                    // Update the state array on the main thread
-                    DispatchQueue.main.async 
-                    {
-                        self.records = filteredRecords
-                    }
-        } catch
+            // Update the state array on the main thread
+            DispatchQueue.main.async
+            {
+                self.records = filteredRecords
+            }
+        } 
+        catch
         {
             print("Error fetching records: \(error)")
         }
     }
-    
-//    func updateHabitAndRefreshUI(habit: Habit) async -> Int 
-//    {
-//
-//            do {
-//                let returnInt = try await updateHabitRecord(habit: habit)
-//                print("Habit record updated successfully!")
-//                await fetchRecords() // Refresh the records
-//                return returnInt
-//            } catch {
-//                print("Error updating habit record: \(error)")
-//                // Handle errors appropriately
-//            }
-//        return 0
-//    }
+
 }
 
 #Preview {

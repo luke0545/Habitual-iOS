@@ -10,8 +10,9 @@ import SwiftUI
 
 import SwiftUI
 
+// Top 10% of each page with the "Habitual" title, along with the two "Home" and "Activity" pages. Current page is highlighted in blue
 struct NavigationSection: View {
-    let currentPage: String // "Home" or "Activity"
+    let currentPage: String
 
     var body: some View {
         VStack
@@ -26,12 +27,14 @@ struct NavigationSection: View {
                 Spacer()
                 Text("Home")
                     .font(.body)
+                    // highlight in blue if page is selected
                     .foregroundColor(currentPage == "Home" ? Color.accentColor : .gray)
                     .padding(.horizontal, 40)
                     .fontWeight(.bold)
                 
                 Text("Activity")
                     .font(.body)
+                    // highlight in blue if page is selected
                     .foregroundColor(currentPage == "Activity" ? Color.accentColor : .gray)
                     .padding(.horizontal, 40)
                     .fontWeight(.bold)

@@ -10,6 +10,7 @@ import Foundation
 // GET ALL HABITS //
 func getHabits() async throws -> [Habit]
 {
+    // Set endpoint to contact the API
     let endpoint = "http://localhost:3000/allhabits"
     
     guard let url = URL(string: endpoint) else
@@ -18,7 +19,6 @@ func getHabits() async throws -> [Habit]
     }
     
     let (data, response) = try await URLSession.shared.data(from: url)
-    //print("Received Data: ", data)
     
     // Handle response error
     guard let response = response as? HTTPURLResponse, response.statusCode == 200 else
@@ -32,7 +32,7 @@ func getHabits() async throws -> [Habit]
         let decoder = JSONDecoder()
         // convert property names from snake_case in the database to camelCase to comply with swift best practices
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        //print("Raw JSON data:", String(decoding: data, as: UTF8.self))
+
         return try decoder.decode([Habit].self, from: data)
     } catch
     {
@@ -44,6 +44,7 @@ func getHabits() async throws -> [Habit]
 // GET ALL RECORDS //
 func getRecords() async throws -> [Record]
 {
+    // Set endpoint to contact the API
     let endpoint = "http://localhost:3000/allrecords"
     
     guard let url = URL(string: endpoint) else
@@ -66,7 +67,7 @@ func getRecords() async throws -> [Record]
         let decoder = JSONDecoder()
         // convert property names from snake_case in the database to camelCase to comply with swift best practices
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        //print("Raw JSON data:", String(decoding: data, as: UTF8.self))
+
         return try decoder.decode([Record].self, from: data)
     } catch
     {
@@ -74,17 +75,18 @@ func getRecords() async throws -> [Record]
     }
 }
 
-// ADD 1 TO HABIT RECORD //
+// ADD 1 REPETITION TO HABIT RECORD //
 // method prints Int of updated repetition number
 func updateHabitRecord(habit: Habit) async throws -> ()
 {
-    
+    // Set endpoint to contact the API
     let endpoint = "http://localhost:3000/updatehabitrecord"
 
     guard let url = URL(string: endpoint) else 
     {
         throw HABError.invalidURL
     }
+    
     // create endpoint string as URL object and set method to POST
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
@@ -92,9 +94,11 @@ func updateHabitRecord(habit: Habit) async throws -> ()
 
     // Encode the Habit object as JSON
     let encoder = JSONEncoder()
+    
     // Convert to snake case
     encoder.keyEncodingStrategy = .convertToSnakeCase
     let encodedHabit = try encoder.encode(habit)
+    
     // print what the API is receiving
     print("Habit sending to server: \n\n\n", String(data: encodedHabit, encoding: .utf8)!)
     request.httpBody = encodedHabit
@@ -117,8 +121,8 @@ func addHabit(habit: Habit, completion: @escaping (Result<Void, Error>) -> Void)
 {
     // Generate current date time in ISO 8601 format
     let currentDateTimeISO = ISO8601DateFormatter().string(from: Date())
-
-    guard let url = URL(string: "http://localhost:3000/addhabit") else 
+    // Set endpoint to contact the API
+    guard let url = URL(string: "http://localhost:3000/addhabit") else
     {
         completion(.failure(URLError(.badURL)))
         return
@@ -128,8 +132,8 @@ func addHabit(habit: Habit, completion: @escaping (Result<Void, Error>) -> Void)
     request.httpMethod = "POST"
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-    // Construct JSON body with default DateTimeISO
-    let body: [String: Any] = 
+    // Construct JSON body with habit parameter data and default DateTimeISO
+    let body: [String: Any] =
         [
             "name": habit.name,
             "type": habit.type,
@@ -172,6 +176,7 @@ func addHabit(habit: Habit, completion: @escaping (Result<Void, Error>) -> Void)
 
 func deleteHabit(habit: Habit, completion: @escaping (Error?) -> Void) 
 {
+    // Set endpoint to contact the API
     guard let url = URL(string: "http://localhost:3000/removehabit") else
     {
         completion(NSError(domain: "InvalidAPIURL", code: -1, userInfo: nil))
@@ -188,19 +193,23 @@ func deleteHabit(habit: Habit, completion: @escaping (Error?) -> Void)
         encoder.keyEncodingStrategy = .convertToSnakeCase // Encode keys in snake_case
         let jsonData = try encoder.encode(habit)
         urlRequest.httpBody = jsonData
-    } catch
+    } 
+    catch
       {
         completion(error)
         return
       }
     
-    let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
-        if let error = error {
+    let task = URLSession.shared.dataTask(with: urlRequest)
+    {
+        // If Error
+        data, response, error in
+        if let error = error 
+        {
             completion(error)
             return
         }
-        
-        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else 
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else
         {
             completion(NSError(domain: "APIError", code: -2, userInfo: nil))
             return

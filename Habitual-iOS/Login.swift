@@ -101,14 +101,6 @@ struct LoginView: View
         }
         .background(Color.white)
     }
-//    func isValidPassword(_ password: String) -> Bool 
-//    {
-//          // Regular expression to check for at least one digit
-//          let regex = NSPredicate(format: "SELF MATCHES %@", "^(?=.*[0-9])")
-//          
-//          // Check if password has at least one digit and both passwords match
-//          return regex.evaluate(with: password) && password == $password // Reference current password binding
-//    }
 }
 
 #Preview {

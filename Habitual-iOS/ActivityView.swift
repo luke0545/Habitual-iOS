@@ -11,7 +11,7 @@ import Charts
 
 struct ActivityView: View 
 {
-    //@StateObject private var habitData = HabitData()
+    // State var to hold line graph data
     @State public var habit1Reps: [Int] = [1, 10, 2, 7, 7, 8, 9]
     // State current page
     @State private var currentPage: String = "Activity"
@@ -21,10 +21,10 @@ struct ActivityView: View
     @State private var records: [Record] = []
     
     // Access the binding directly within the view's body
-        var recordsBinding: Binding<Array<Record>> {
-            Binding(get: { self.records }, set: { self.records = $0 })
-        }
-    
+    var recordsBinding: Binding<Array<Record>>
+    {
+        Binding(get: { self.records }, set: { self.records = $0 })
+    }
     
     var body: some View 
     {
@@ -34,7 +34,8 @@ struct ActivityView: View
             NavigationSection(currentPage: currentPage)
         }
         .frame(width: .infinity, height: 90)
-        var xValues = [1, 2, 3, 4, 5, 6, 7]
+        // define x values to show on chart
+        let xValues = [1, 2, 3, 4, 5, 6, 7]
         Chart
         {
             // Create a line chart
@@ -75,7 +76,6 @@ struct ActivityView: View
         }
         
         Spacer()
-        //Text(records[0].updateNum)
         // Split habits list into two sub-lists
         let numHabits = habits.count
         let halfHabits = numHabits / 2
@@ -87,30 +87,34 @@ struct ActivityView: View
         {
             HStack(spacing: 0)
             {
-
+                // Display left column
                 VStack
                 {
                       ForEach(habitsLeft)
-                      { habit in
+                      { 
+                          habit in
                           Button(action:
                           {
                               lineChartUpdate(habit: habit)
-                          }) {
+                          }) 
+                          {
                               Text(habit.name)
                                   .modifier(HabitActivityStyle())
                                   .frame(maxWidth: .infinity)
                           }
                       }
                 }
-
+                // Display right column
                 VStack
                 {
                       ForEach(habitsRight)
-                      { habit in
+                      { 
+                          habit in
                           Button(action:
                           {
                               lineChartUpdate(habit: habit)
-                          }) {
+                          }) 
+                          {
                               Text(habit.name)
                                   .modifier(HabitActivityStyle())
                                   .frame(maxWidth: .infinity)
@@ -133,15 +137,15 @@ struct ActivityView: View
     func lineChartUpdate(habit: Habit) -> Void
     {
         var tmpRecordsList: [Int] = []
-        // list repetitions
         // Iterate through records
             for record in records 
             {
                 if habit.habitId == record.habitId
                 {
+                    // convert to an integer and add it to tmpRecordsList
                     if let updateNumInt = Int(record.updateNum)
                     {
-                        // Successfully converted to an integer, add it to tmpRecordsList
+                        // Only list the first 7 data points
                         if(tmpRecordsList.count < 7)
                         {
                             tmpRecordsList.append(updateNumInt)
@@ -149,17 +153,20 @@ struct ActivityView: View
                     }
                     else
                     {
-                        // Handle the case where conversion fails (e.g., non-numeric string)
+                        // Handle failed conversion to Int
                         print("Error: Unable to convert \(record.updateNum) to an integer.")
                     }
                 }
             }
         var habit2Reps: [Int] = Array(repeating: 0, count: 7)
-        for i in 0..<tmpRecordsList.count {
-                habit2Reps[i] = tmpRecordsList[i]
-            }
+        // set tmpRecordsList to habit2Reps []
+        for i in 0..<tmpRecordsList.count
+        {
+            habit2Reps[i] = tmpRecordsList[i]
+        }
 
         print(habit2Reps)
+        // update the line graph data
         habit1Reps = habit2Reps
     }
 
@@ -170,7 +177,7 @@ struct ActivityView: View
         do
         {
             let habitsList = try await getHabits()
-            // Update state on the main thread for consistent UI updates
+            // Update state var for consistent UI updates
             DispatchQueue.main.async
             {
                 self.habits = habitsList
@@ -189,19 +196,18 @@ struct ActivityView: View
             // Get records from server
             let rawRecordsList = try await getRecords()
 
-                    // Update the state array on the main thread
-                    DispatchQueue.main.async
-                    {
-                        self.records = rawRecordsList
-                    }
-        } catch
+            // Update the state var array
+            DispatchQueue.main.async
+            {
+                self.records = rawRecordsList
+            }
+        } 
+        catch
         {
             print("Error fetching records: \(error)")
         }
     }
 }
-
-
 
 #Preview {
     ActivityView()

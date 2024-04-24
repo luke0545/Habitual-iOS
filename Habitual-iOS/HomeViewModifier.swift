@@ -8,7 +8,8 @@
 import Foundation
 import SwiftUI
 
-struct HabitStyle: ViewModifier 
+// Home Page green habit blocks
+struct HabitStyle: ViewModifier
 {
     let habitGreen = Color(red: 0.17, green: 0.33, blue: 0.2)
     func body(content: Content) -> some View 
@@ -22,7 +23,7 @@ struct HabitStyle: ViewModifier
             .foregroundColor(.white)
     }
 }
-
+// Smaller habit blocks on Activity page
 struct HabitActivityStyle: ViewModifier
 {
     let habitGreen = Color(red: 0.17, green: 0.33, blue: 0.2)
@@ -37,7 +38,7 @@ struct HabitActivityStyle: ViewModifier
             .foregroundColor(.white)
     }
 }
-
+// long, thin habit name on Details popup
 struct HabitDetailsStyle: ViewModifier
 {
     let habitGreen = Color(red: 0.17, green: 0.33, blue: 0.2)
@@ -53,7 +54,8 @@ struct HabitDetailsStyle: ViewModifier
     }
 }
 
-struct HabitColor: ViewModifier 
+// Color switch between good (green) and bad (red) blocks
+struct HabitColor: ViewModifier
 {
     enum ColorScheme: String 
     {
@@ -70,6 +72,7 @@ struct HabitColor: ViewModifier
     }
 }
 
+// Red delete block on habit details popup
 struct HabitDeleteStyle: ViewModifier
 {
     let deleteRed = Color(red: 0.47, green: 0.13, blue: 0.2)
@@ -83,8 +86,4 @@ struct HabitDeleteStyle: ViewModifier
             .foregroundColor(.white)
             .font(.system(size: 22, weight: .bold))
     }
-}
-
-#Preview {
-    HomeView()
 }
