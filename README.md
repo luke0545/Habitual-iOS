@@ -11,42 +11,43 @@ The app was developed in XCode and coded in Swift. The database is hosted in AWS
 Through planning and development, I used industry tools like XCode, Jira and Postman. I haven't coded in Swift up to the point of starting this project so it was good experience getting hands-on with iOS development and learning a new language.
 
 <h4>Logical Solution Design:</h4>
-<img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/6b858002-7ddf-46f9-ac20-597f7ac316fb" width=70% height=70%>
+<img src="https://github.com/user-attachments/assets/90f38fd4-7076-4654-a094-b1ade5e0c17e" width=70% height=70%>
 
 <h4>Physical Solution Design:</h4>
 
-![Physical Diagram - No Name Tag](https://github.com/luke0545/Habitual-iOS/assets/56170386/6b9c7e2a-c0bc-4bb5-bdbb-e12bb95a352d)
+![Physical Diagram - No Name Tag](https://github.com/user-attachments/assets/b2753337-39ff-402c-aeb6-125133e036b5)
 
 <h3>Key Technical Design Decisions:</h3>
 My core technical design decisions are utilizing Swift and the Swift UI, and Swift Charts frameworks. Additionally, I will use AWS to host my data through RDS to ensure reliable uptime and use GitHub for version control. I also plan on hosting the Express API if putting Habitual on the App Store becomes in-scope. Also, since the Express API will handle all communication with the database, it will act as a Data Access Object (DAO) for the business classes to directly communicate with, as shown in the logical diagram.
 
 <h4>Database ER Diagram:</h4>
 
-<img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/8246996f-a213-4f52-b5e4-8df3cbbcbb7e" width=40% height=40%>
+<img src="https://github.com/user-attachments/assets/b0c1b666-d850-4d36-b6b7-6fd0644997fb" width=40% height=40%>
 
 Each Habit object will entail details including a user_id which is used to link habits to a specific user. Each Record object will likewise be linked to a habit through a habit_id to ensure that users only see their own list of habits and expected records.
 
 <h4>Flowchart Diagram:</h4>
 
-<img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/434c6045-f6ba-43bc-be93-ff843c8ef0b4" width=75% height=75%>
+<img src="https://github.com/user-attachments/assets/8cc8ca44-e65f-4e6d-983b-4a19df7c32c4" width=75% height=75%>
 
 The logical flow of the app as the user would see it. Green nodes indicate where the user will start.
 
 <h4>Sitemap Diagram:</h4>
-<img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/1398820f-2f6d-40a4-b92e-55df662d3305" width=75% height=75%>
+
+<img src="https://github.com/user-attachments/assets/8d82afa1-1148-4e47-b8a7-a9ea0b72f21b" width=75% height=75%>
 
 The sitemap shows the technical flow of the app at a high level.
 
 <h3>UI Wireframes:</h3>
-<img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/6d56de55-04f1-4987-b2ef-f4e15c2fd364" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/06bdb89c-30b4-4bd6-b2f5-5e14cb7342c8" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/b773db2e-75b3-490e-9fd8-175392e840c9" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/64f64e22-16ac-4c3a-ba61-e1da83b0894f" width=25% height=25%>
+<img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/6d56de55-04f1-4987-b2ef-f4e15c2fd364" width=25% height=25%><img src="https://github.com/user-attachments/assets/3d4c8743-1554-4c80-b0d4-4c8f133a2f66" width=25% height=25%><img src="https://github.com/user-attachments/assets/7c70806a-dab5-4fd9-a833-6756707695d0" width=25% height=25%>
 
 Users will tap the ‘+’ icon to the left of each habit once they’ve completed it. The results on the right side will add up accordingly to see a brief overview of their status. When a habit name is tapped on, the square becomes darkened and triggers the ‘Details View’ for that habit as seen below.
 
-<img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/dd22728f-6e45-43e2-83c6-7f430907e5ce" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/a3bc7409-528e-4a9a-85c1-b128ab9a5f8a" width=25% height=25%>
+<img src="https://github.com/user-attachments/assets/bf0f086e-1903-4e4b-9d25-73076eeb9af9" width=25% height=25%><img src="https://github.com/user-attachments/assets/aab7e8a6-bd3b-44d2-92b7-a21043cae0b2" width=25% height=25%><img src="https://github.com/user-attachments/assets/74160b56-2ad6-4432-a1cc-6e3aba589b3a" width=25% height=25%>
 
-Statistics for each habit are compiled through a business class and displayed on the screen above. This is where a user can delete a habit from their account as well.
+Statistics for each habit are compiled through a business class and displayed on the "Details" screen above. This is also where users can delete habits from their account. 
 
-<img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/64c14d51-c7fc-47ad-b053-55e62f4c62db" width=25% height=25%><img src="https://github.com/luke0545/Habitual-iOS/assets/56170386/7ec5e7c3-cad5-4173-a9df-e041b4761bee" width=25% height=25%>
+<img src="https://github.com/user-attachments/assets/ce014414-ef04-4d26-9a3a-f8dde9c17676" width=25% height=25%><img src="https://github.com/user-attachments/assets/8c52fe7b-c172-474d-b731-75e4c371979a" width=25% height=25%>
 
 The ‘Add Habit Form’ page allows users to add new habits and includes all data needed to add a new habit row to the database.
 The ‘Activity Page’ gives users a visual representation of their progress for a single or multiple habits over a 7-day period. Tapping on the greyed-out habits will show/hide their corresponding-colored line on the chart at the top.
